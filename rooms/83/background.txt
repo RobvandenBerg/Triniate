@@ -1,0 +1,1 @@
+400,400,rooms/83/background.png

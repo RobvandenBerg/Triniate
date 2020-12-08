@@ -1,0 +1,1 @@
+map_maker/maps/0.png,400,400;;;;

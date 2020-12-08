@@ -1,0 +1,1 @@
+160,100,rooms/34.png;'5,15,35,35,use_function,open_craftbox','103,81,120,99,teleport,3,2';109,48.sprite_up;5,15,30,20.images/objects/house_objects/workbench.png;0/,,,_,,,/1-7/0-20/Goblin_Caveman/50-1_50-2_100-3-5
