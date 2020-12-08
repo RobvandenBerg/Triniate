@@ -1,5 +1,6 @@
 <?php
-include('functions/urlsettings.php');
+include('include_this.php');
+
 ?>
 <html>
 <head>

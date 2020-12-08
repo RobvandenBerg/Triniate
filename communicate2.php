@@ -41,7 +41,6 @@ else
 	die('no post values found');
 }
 $select_time = time() - 60;
-$room = get_room();
 
 
 $extra_array = array();
@@ -67,10 +66,12 @@ if(isset($_POST['extra_4']) && !empty($_POST['extra_4']))
 }
 
 
+
 // ---------------------
-$select_my_stats = mysql_query("SELECT flagtime, flag_left, flag_top,  attack,defense,health,magic,max_hp,max_magic,exp,exp_woodcutting,exp_mining,item_equipped,stamina,lastmove from position where id='$player_id'") or die('error: ' . mysql_error());
+$select_my_stats = mysql_query("SELECT flagtime, flag_left, flag_top, room, attack,defense,health,magic,max_hp,max_magic,exp,exp_woodcutting,exp_mining,item_equipped,stamina,lastmove from position where id='$player_id'") or die('error: ' . mysql_error());
 
 $sms = mysql_fetch_array($select_my_stats);
+$room = $sms['room'];
 $flag_left = $sms['flag_left'];
 $flag_top = $sms['flag_top'];
 $flagtime = $sms['flagtime'];
@@ -87,6 +88,11 @@ $item_equipped = $sms['item_equipped'];
 $exp_woodcutting = $sms['exp_woodcutting'];
 $exp_mining = $sms['exp_mining'];
 $old_lastmove = $sms['lastmove'];
+
+if($_POST['room'] and $room != $_POST['room'])
+{
+	exit('refresh');
+}
 
 $time = time();
 $flagdiff = $time - $flagtime;
@@ -182,10 +188,12 @@ foreach($extra_array as $extra_string)
 	if($extra_explode[0] == 'use')
 	{
 		$inventory_id = htmlentities($extra_explode[1]);
+		/*
 $myFile = "do.txt";
 $fh = fopen($myFile, 'a') or die("can't open file");
 fwrite($fh, "gotta use item $inventory_id\n");
 fclose($fh);
+*/
 		$select_item_request = mysql_query("SELECT item_id from inventories where id='$inventory_id'") or die(mysql_error());
 		if(mysql_num_rows($select_item_request) == 1)
 		{
@@ -434,10 +442,12 @@ fclose($fh);
 					}
 					eval('$exp_'.$exp_type.' = $next_exp_this;');
 					$update_exp_request = mysql_query("UPDATE position set exp_".$exp_type."='$next_exp_this' where id='$player_id'") or die(mysql_error());
+					/*
 					$myFile = "do.txt";
 $fh = fopen($myFile, 'a') or die("can't open file");
 fwrite($fh, "UPDATE position set exp_".$exp_type."='$next_exp_this' where id='$player_id'");
 fclose($fh);
+*/
 					$delete_object_request = mysql_query("DELETE from placed_special_objects where id='$special_object_id'") or die('error: '.mysql_error());
 					if($drops != 0)
 					{
@@ -701,124 +711,4 @@ for($m = 0; $m < $number; $m++)
 	$max_hp = $select_position_array['max_hp'];
 	$max_magic = $select_position_array['max_magic'];
 	$magic = $select_position_array['magic'];
-	if($id == $player_id)
-	{
-		if($health != 100 && $health != 0)
-		{
-			if(time() > ($last_health_update + $regenerate_time))
-			{
-				$new_last_update = time();
-				if($health >= ($max_hp - 5))
-				{
-					$new_health = $max_hp;
-				}
-				else
-				{
-					$new_health = $health + 5;
-				}
-				$health_update = mysql_query("UPDATE position set health='$new_health', last_health_update='$new_last_update' where id='$player_id'");
-			}
-		}
-		if($magic != 100)
-		{
-			if(time() > ($last_magic_update + $regenerate_magic_time))
-			{
-				$new_last_update = time();
-				if($magic >= ($max_magic - 5))
-				{
-					$new_magic = $max_magic;
-				}
-				else
-				{
-					$new_magic = $magic + 5;
-				}
-				$magic_update = mysql_query("UPDATE position set magic='$new_magic', last_magic_update='$new_last_update' where id='$player_id'");
-			}
-		}
-	}
-
-	
-	if(!empty($message))
-	{
-		$mesplode = explode('ao9q82o',$message);
-		$timelimit = time() - 20;
-		$sendtime = $mesplode[0];
-		if($sendtime > $timelimit)
-		{
-			$message = str_replace(',','',$mesplode[1]);
-			$message = str_replace(';','',$mesplode[1]);
-		}
-		else
-		{
-			$message = 'nomsg';
-		}
-	}
-	else
-	{
-		$message = 'nomsg';
-	}
-
-	$health_percentage = $health/$max_hp * 100;
-	$magic_percentage = $magic/$max_magic * 100;
-	if($health <= 0)
-	{
-		$sprite = "sprite_dead";
-	}
-	
-	echo $id . ',' . $pos_left . ',' . $pos_top . ',' . $sprite . ',' . $message . ',' . $player_name . ',' . round($health_percentage) . ',player,';
-	if($id == $player_id)
-	{
-		echo $item_equipped . ',' . $item_equipped_id . ',' . $durability_percentage . ',' . round($magic_percentage) . ',' . $magic . ',' . $reset_left . ',' . $reset_top;
-		if($force_reset)
-		{
-			file_put_contents('do2.txt','reset left: '.$reset_left.'. reset top: '.$reset_top);
-		}
-		if($display_stamina)
-		{
-			echo ',' . $stamina;
-		}
-	}
-	
-	$rv = explode(',',$position);
-	$pt = $rv[1];
-	$pl = $rv[0];
-	$py = array($id,$pl,$pt);
-	$players[$m] = $py;
-}
-
-/*
-$myFile = "villains.txt";
-$fh = fopen($myFile, 'r');
-$theData = fread($fh, filesize($myFile));
-fclose($fh);
-//echo ';' . $theData;
-*/
-
-
-if(rand(0,200) == 5)
-{
-	include('sampletreespawn.php');
-}
-
-// if(!isset($hit_enemy))
-$random = rand(1,5);
-// if($random == 2)
-$random = 2;
-if($random == 2)
-{
-	include('villains_2.php');
-}
-
-include('lying_items.php');
-
-include('spawn.php');
-
-if($_POST['fetch_messages'])
-{
-	echo ';split;';
-	include('messages.php');
-}
-
-mysql_close();
-include('functions/db_info.php');
-?>
+	if($

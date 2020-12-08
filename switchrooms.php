@@ -35,7 +35,7 @@ if(isset($_GET['newroom']) && is_numeric($_GET['newroom']) && isset($_GET['inopt
 	//echo "<script>alert('$theData - $background');</script>";
 	// -- END GET ROOM SETTINGS CODE --
 	
-	file_put_contents('do2.txt',"UPDATE position set room='$newroom',pos_left='$npos_left',pos_top='$npos_top',sprite='$newsprite',flag_left='$npos_left',flag_top='$npos_top',flagtime='".time()."' where id='$player_id'");
+	// file_put_contents('do2.txt',"UPDATE position set room='$newroom',pos_left='$npos_left',pos_top='$npos_top',sprite='$newsprite',flag_left='$npos_left',flag_top='$npos_top',flagtime='".time()."' where id='$player_id'");
 	
 	
 	mysql_pconnect($dbhost,$dbuser,$dbpass);

@@ -149,13 +149,14 @@ if(file_exists('npcs/rooms/'.$room.'.php'))
 <meta name='viewport' content='width=320'>
 <head>
 <title>
-Demo 7
+Triniate - 3DS Client
 </title>
 <script>
 // -- OBJECTS SCRIPT
 var objects = new Array;
 </script>
 <script>
+var room = <?php echo round($room);?>;
 <?php
 for($m = 0; $m < count($objects); $m++)
 {
@@ -2670,6 +2671,12 @@ function update_position()
 			firstspeedtest++;
 			secondspeedtest++;
 			// setTimeout("if(firstspeedtest == "+secondspeedtest+"){/*alert('Communication error'); window.location='index.php';*/}",10000);
+			if(responseraw == 'refresh')
+			{
+				redirecting_page = true;
+				window.location=window.location;
+				return;
+			}
 			if(responseraw == 'login')
 			{
 				alert('Your session timed out. Please relogin.'); window.location='index.php';
@@ -2689,7 +2696,7 @@ function update_position()
 		
 	updaterequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 		
-	updaterequest.send("position="+coords+"&sprite="+currentsprite+"&stamina="+fitness+fetch_messages_string+send_extra_string);
+	updaterequest.send("room="+room+"&position="+coords+"&sprite="+currentsprite+"&stamina="+fitness+fetch_messages_string+send_extra_string);
 }
 
 
