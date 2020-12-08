@@ -19,7 +19,7 @@ function full_login()
 		$username = $_COOKIE['username'];
 		$password = $_COOKIE['password'];
 	}
-	if($username and $password)
+	if($username and $password and !$_POST['logout'])
 	{
 		$mysqli = mysqli_connect($dbhost, $dbuser, $dbpass, $db);
 		$result = $mysqli -> query('SELECT id, username, password_hash from users where username="'.$mysqli->real_escape_string($username).'"') or die($mysqli -> error);
@@ -51,6 +51,8 @@ function full_login()
 	}
 	else if($_POST['logout'])
 	{
+		$_SESSION['username'] = '';
+		$_SESSION['password'] = '';
 		setcookie('username', '', time());
 		setcookie('password', '', time());
 	}

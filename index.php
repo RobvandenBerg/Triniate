@@ -176,7 +176,7 @@ text-align: right;
 padding-right: 5px;
 font-size: 12px;
 }
-div.logout
+.logout
 {
 position: relative;
 float: right;
@@ -191,6 +191,10 @@ text-align: center;
 font-size: 14px;
 height: 18px;
 opacity: 0.8;
+color: white;
+font-size: 13px;
+font-family: Trinigan;
+cursor: pointer;
 }
 a.logoutlink
 {
@@ -234,9 +238,9 @@ window.onload = function(){document.body.scrollTop = 218;}
 </script>
 </head>
 <body>
-<div id='topscreen'><img class='titleimg' src='<?php echo $triniate_homepage;?>/project_triniate_title.png'><div class='welcome_user'>Welcome, <?php echo $gebruikersnaam;?></div></div>
+<div id='topscreen'><img class='titleimg' src='<?php echo $triniate_homepage;?>/project_triniate_title.png'><div class='welcome_user'>Welcome, <?php echo htmlentities($username);?></div></div>
 <div id='bottomscreen'>
-<div class='back'><a href='<?php echo $triniate_homepage;?>' class='backlink'>Back</a></div><div class='logout'><a href='<?php echo $_SERVER['PHP_SELF'];?>?logout=yes' class='logoutlink'>Log out</a></div><br><br>
+<div class='back'><a href='<?php echo $triniate_homepage;?>' class='backlink'>Back</a></div><form method='post'><input type='submit' name='logout' class='logout' value='Log out'></form><br><br>
 <?php
 
 
