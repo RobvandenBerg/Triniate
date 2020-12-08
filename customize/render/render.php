@@ -105,6 +105,10 @@ $functions_included = 'yes';
 $frames = array();
 $framed = array();
 
+if(!is_dir("temp"))
+{
+	mkdir("temp");
+}
 
 $random_dir = rand(0,10000);
 $temp_dir = "temp/$random_dir";
