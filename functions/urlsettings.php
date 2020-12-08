@@ -1,2 +1,8 @@
-<?phpif(!$triniate_homepage){	include_once('../github_settings.php');}
+<?php
+
+if(!$triniate_homepage)
+{
+	include_once(__DIR__ . '/../github_settings.php');
+}
+
 ?>
