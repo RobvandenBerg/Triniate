@@ -212,6 +212,11 @@ echo $giftext;
 
 delete_directory($temp_dir);
 
+if(!is_dir("../saved"))
+{
+	mkdir("../saved");
+}
+
 if(!is_dir("../saved/$member_id"))
 {
 	mkdir("../saved/$member_id");
