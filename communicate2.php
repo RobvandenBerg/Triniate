@@ -711,4 +711,124 @@ for($m = 0; $m < $number; $m++)
 	$max_hp = $select_position_array['max_hp'];
 	$max_magic = $select_position_array['max_magic'];
 	$magic = $select_position_array['magic'];
-	if($
+	if($id == $player_id)
+	{
+		if($health != 100 && $health != 0)
+		{
+			if(time() > ($last_health_update + $regenerate_time))
+			{
+				$new_last_update = time();
+				if($health >= ($max_hp - 5))
+				{
+					$new_health = $max_hp;
+				}
+				else
+				{
+					$new_health = $health + 5;
+				}
+				$health_update = mysql_query("UPDATE position set health='$new_health', last_health_update='$new_last_update' where id='$player_id'");
+			}
+		}
+		if($magic != 100)
+		{
+			if(time() > ($last_magic_update + $regenerate_magic_time))
+			{
+				$new_last_update = time();
+				if($magic >= ($max_magic - 5))
+				{
+					$new_magic = $max_magic;
+				}
+				else
+				{
+					$new_magic = $magic + 5;
+				}
+				$magic_update = mysql_query("UPDATE position set magic='$new_magic', last_magic_update='$new_last_update' where id='$player_id'");
+			}
+		}
+	}
+
+	
+	if(!empty($message))
+	{
+		$mesplode = explode('ao9q82o',$message);
+		$timelimit = time() - 20;
+		$sendtime = $mesplode[0];
+		if($sendtime > $timelimit)
+		{
+			$message = str_replace(',','',$mesplode[1]);
+			$message = str_replace(';','',$mesplode[1]);
+		}
+		else
+		{
+			$message = 'nomsg';
+		}
+	}
+	else
+	{
+		$message = 'nomsg';
+	}
+
+	$health_percentage = $health/$max_hp * 100;
+	$magic_percentage = $magic/$max_magic * 100;
+	if($health <= 0)
+	{
+		$sprite = "sprite_dead";
+	}
+	
+	echo $id . ',' . $pos_left . ',' . $pos_top . ',' . $sprite . ',' . $message . ',' . $player_name . ',' . round($health_percentage) . ',player,';
+	if($id == $player_id)
+	{
+		echo $item_equipped . ',' . $item_equipped_id . ',' . $durability_percentage . ',' . round($magic_percentage) . ',' . $magic . ',' . $reset_left . ',' . $reset_top;
+		if($force_reset)
+		{
+			/*file_put_contents('do2.txt','reset left: '.$reset_left.'. reset top: '.$reset_top);*/
+		}
+		if($display_stamina)
+		{
+			echo ',' . $stamina;
+		}
+	}
+	
+	$rv = explode(',',$position);
+	$pt = $rv[1];
+	$pl = $rv[0];
+	$py = array($id,$pl,$pt);
+	$players[$m] = $py;
+}
+
+/*
+$myFile = "villains.txt";
+$fh = fopen($myFile, 'r');
+$theData = fread($fh, filesize($myFile));
+fclose($fh);
+//echo ';' . $theData;
+*/
+
+
+if(rand(0,200) == 5)
+{
+	include('sampletreespawn.php');
+}
+
+// if(!isset($hit_enemy))
+$random = rand(1,5);
+// if($random == 2)
+$random = 2;
+if($random == 2)
+{
+	include('villains_2.php');
+}
+
+include('lying_items.php');
+
+include('spawn.php');
+
+if($_POST['fetch_messages'])
+{
+	echo ';split;';
+	include('messages.php');
+}
+
+mysql_close();
+include('functions/db_info.php');
+?>
