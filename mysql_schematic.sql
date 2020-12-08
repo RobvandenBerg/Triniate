@@ -158,13 +158,13 @@ CREATE TABLE `position` (
   `pos_left` int(11) NOT NULL DEFAULT '10',
   `pos_top` int(11) NOT NULL DEFAULT '10',
   `room` int(10) NOT NULL DEFAULT '1',
-  `sprite` varchar(25) NOT NULL,
+  `sprite` varchar(25) NOT NULL DEFAULT '',
   `health` int(11) NOT NULL DEFAULT '50',
   `magic` int(11) NOT NULL DEFAULT '100',
   `stamina` int(11) NOT NULL DEFAULT '100',
-  `message` varchar(80) NOT NULL,
-  `lastmove` varchar(10) NOT NULL,
-  `last_health_update` int(11) NOT NULL,
+  `message` varchar(80) NOT NULL default '',
+  `lastmove` varchar(10),
+  `last_health_update` int(11) NOT NULL DEFAULT '0',
   `last_magic_update` int(11) NOT NULL DEFAULT '0',
   `level` int(3) NOT NULL DEFAULT '1',
   `attack` int(4) NOT NULL DEFAULT '10',
@@ -279,9 +279,9 @@ CREATE TABLE `villains` (
   `pos_top` int(11) NOT NULL DEFAULT '100',
   `pos_left` int(11) NOT NULL DEFAULT '100',
   `sprite` varchar(30) NOT NULL DEFAULT 'sprite_right',
-  `message` varchar(100) NOT NULL,
-  `player_name` varchar(20) NOT NULL,
-  `health` int(11) NOT NULL,
+  `message` varchar(100) DEFAULT "",
+  `player_name` varchar(20) DEFAULT "enemy",
+  `health` int(11) DEFAULT '0',
   `player_type` varchar(20) NOT NULL DEFAULT 'villain',
   `last_health_update` int(15) NOT NULL DEFAULT '0',
   `last_time_update` varchar(30) NOT NULL DEFAULT '0',
@@ -300,6 +300,10 @@ CREATE TABLE `villains` (
   PRIMARY KEY (`id`),
   KEY `room` (`room`)
 ) ENGINE=MyISAM AUTO_INCREMENT=24609 DEFAULT CHARSET=latin1;
+
+
+INSERT IGNORE into pages (id, type, in_room, sells, retailer) VALUES (1, 'shop', 40, '1,5,7,9,17,18,22,23,33', 'normal'), (2, 'bank', 34, '', 'normal');
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

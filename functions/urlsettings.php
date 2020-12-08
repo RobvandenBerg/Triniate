@@ -1,4 +1,2 @@
-<?php
-$triniate_homepage = 'http://triniate.com';
-$triniate_playpage = 'http://triniate.com/play_5';
+<?phpif(!$triniate_homepage){	include_once('../github_settings.php');}
 ?>
