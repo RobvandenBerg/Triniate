@@ -241,8 +241,8 @@ CREATE TABLE `trades` (
   `inviter` int(11) NOT NULL DEFAULT '0',
   `accepter` int(11) NOT NULL DEFAULT '0',
   `trade_status` varchar(30) NOT NULL DEFAULT 'requesting',
-  `inviter_offered` longtext NOT NULL,
-  `accepter_offered` longtext NOT NULL,
+  `inviter_offered` longtext,
+  `accepter_offered` longtext,
   `inviter_money` int(11) NOT NULL DEFAULT '0',
   `accepter_money` int(11) NOT NULL DEFAULT '0',
   `requestedtime` varchar(10) NOT NULL DEFAULT '0',
@@ -303,6 +303,7 @@ CREATE TABLE `villains` (
 
 INSERT IGNORE INTO `items` VALUES (1,'Apple',5,'no',0),(2,'Bone',5,'no',0),(3,'Money',0,'no',0),(4,'NPC\'s stone',10,'yes',0),(5,'Potion small',20,'no',0),(6,'Potion big',50,'no',0),(7,'Blue potion small',20,'no',0),(8,'Blue potion big',50,'no',0),(9,'Potion green small',20,'no',0),(10,'Potion green big',50,'no',0),(11,'Potion purple small',20,'no',0),(12,'Potion purple big',50,'no',0),(13,'Potion yellow small',20,'no',0),(14,'Potion yellow big',50,'no',0),(15,'Meat',20,'no',0),(16,'Small log',10,'no',0),(17,'Wooden axe',30,'no',15),(18,'Stone axe',40,'no',25),(19,'Iron axe',50,'no',35),(20,'Golden axe',60,'no',45),(21,'Diamond axe',70,'no',55),(22,'Wooden pickaxe',30,'no',15),(23,'Stone pickaxe',40,'no',25),(24,'Iron pickaxe',50,'no',35),(25,'Golden pickaxe',60,'no',45),(26,'Diamond pickaxe',70,'no',55),(27,'Stick',2,'no',0),(28,'Eduard\'s ring',0,'yes',0),(29,'Skull',20,'no',0),(30,'Oak wood',10,'no',0),(31,'Spruce wood',10,'no',0),(32,'Birch wood',10,'no',0),(33,'Oak planks',5,'no',0),(34,'Spruce planks',6,'no',0),(35,'Birch planks',6,'no',0),(36,'Stone',10,'no',0),(37,'Iron',30,'no',0),(38,'Gold',45,'no',0),(39,'Diamond',60,'no',0);
 
+INSERT IGNORE INTO `special_objects` VALUES (1,40,50,3,'15,35,25,45',-5,'axe',1,'100-30_100-30_100-30_100-30_100-30_100-1',5000,10),(2,40,50,3,'15,35,25,45',-5,'axe',2,'100-31_100-31_100-31_100-31_100-31_100-1',8000,20),(3,15,15,3,'4,5,11,15',0,'pickaxe',1,'100-36',5000,10),(4,15,15,3,'4,5,11,15',0,'pickaxe',2,'100-37',8000,15),(5,15,15,3,'4,5,11,15',0,'pickaxe',3,'100-38',10000,20),(6,15,15,3,'4,5,11,15',0,'pickaxe',3,'100-39',14000,50),(7,40,50,3,'15,35,25,45',-5,'axe',2,'100-32_100-32_100-32_100-32_100-32_100-1',8000,20);
 
 INSERT IGNORE into pages (id, type, in_room, sells, retailer) VALUES (1, 'shop', 40, '1,5,7,9,17,18,22,23,33', 'normal'), (2, 'bank', 34, '', 'normal');
 

@@ -26,7 +26,7 @@ if(mysql_num_rows($check_bank_existance_request) != 1)
 	exit();
 }
 
-$select_money_request = mysql_query('SELECT position.money, position.money_bank, count(*) from position, inventories where position.id='.$player_id .' and inventories.belongs_to=position.id LIMIT 0,1') or die(mysql_error());
+$select_money_request = mysql_query('SELECT position.money, position.money_bank, count(*) from position LEFT JOIN inventories on inventories.belongs_to=position.id where position.id='.$player_id .' LIMIT 0,1') or die(mysql_error());
 $select_money_array = mysql_fetch_array($select_money_request);
 $money_inventory = $select_money_array['money'];
 $money_bank = $select_money_array['money_bank'];

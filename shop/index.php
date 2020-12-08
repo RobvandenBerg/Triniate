@@ -38,7 +38,7 @@ if($select_items_string)
 	}
 }
 
-$select_money_request = mysql_query('SELECT position.money, count(*) from position, inventories where position.id='.$player_id .' and inventories.belongs_to=position.id LIMIT 0,1') or die(mysql_error());
+$select_money_request = mysql_query('SELECT position.money, count(*) from position LEFT JOIN inventories on inventories.belongs_to=position.id where position.id='.$player_id .' LIMIT 0,1') or die(mysql_error());
 $select_money_array = mysql_fetch_array($select_money_request);
 $money = $select_money_array['money'];
 $total_items = $select_money_array[1];

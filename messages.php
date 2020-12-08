@@ -3,7 +3,7 @@
 
 
 $output = '';
-$select_messages_request = mysql_query("SELECT c.type,c.receiver,c.sender,c.message,p.name from chat as c, position as p where c.room='$room' and (c.receiver='everybody' or c.receiver='$player_id') and p.id=c.sender order by c.id DESC LIMIT 0,10") or die(mysql_error());
+$select_messages_request = mysql_query("SELECT c.type,c.receiver,c.sender,c.message,p.name from chat as c LEFT JOIN position as p on p.id=c.sender where c.room='$room' and (c.receiver='everybody' or c.receiver='$player_id') order by c.id DESC LIMIT 0,10") or die(mysql_error());
 $total_messages = mysql_num_rows($select_messages_request);
 for($m = 0; $m < $total_messages; $m++)
 {

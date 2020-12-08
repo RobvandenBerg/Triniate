@@ -1296,7 +1296,7 @@ function attack(b_button)
 						{
 							change_sprite(obj.id + '_sprite',sprite_right['npc_'+cobjid].src);
 						}
-						else if(f_diretion == 3)
+						else if(f_direction == 3)
 						{
 							change_sprite(obj.id + '_sprite',sprite_left['npc_'+cobjid].src);
 						}
