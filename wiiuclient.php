@@ -2700,7 +2700,7 @@ function update_position()
 		
 	updaterequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 		
-	updaterequest.send("room="+room+"&position="+coords+"&sprite="+currentsprite+"&stamina="+fitness+fetch_messages_string+send_extra_string);
+	updaterequest.send("viewport="+630+"&room="+room+"&position="+coords+"&sprite="+currentsprite+"&stamina="+fitness+fetch_messages_string+send_extra_string);
 }
 
 

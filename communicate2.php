@@ -34,6 +34,15 @@ if(isset($_POST['position']) && isset($_POST['sprite']))
 	$min_top = $cpos_top - 180;
 	$max_left = $cpos_left + 200;
 	$max_top = $cpos_top + 180;
+	
+	if($_POST['viewport'])
+	{
+		$range = round($_POST['viewport']) * 1.2;
+		$min_left = $cpos_left - $range;
+		$min_top = $cpos_top - $range;
+		$max_left = $cpos_left + $range;
+		$max_top = $cpos_top + $range;
+	}
 
 }
 else
