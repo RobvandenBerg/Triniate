@@ -1,5 +1,6 @@
 <?php
 $id = round($_GET['id']);
+$mapid = $id;
 function imagecreatefromfile( $filename ) {
     if (!file_exists($filename)) {
         throw new InvalidArgumentException('File "'.$filename.'" not found.');
