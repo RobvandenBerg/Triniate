@@ -167,7 +167,12 @@ var mapsize_height = <?php echo $mapsize_height;?>;
 var fitness = <?php echo $stamina;?>;
 var magic_value = <?php echo $magic;?>;
 var coords = '<?php echo $my_left_pos . "," . $my_top_pos;?>';
+var pos = {x: <?php echo $my_left_pos;?>, y: <?php echo $my_top_pos;?>};
 var SYSTEM = '<?php echo detect_system();?>';
+var viewportLeft = <?php echo round($viewport_left) - 140;?>;
+var viewportTop = <?php echo round($viewport_top) - 76;?>;
+var viewportWidth = 320;
+var viewportHeight = 182;
 <?php
 if($pvp == 'yes')
 {

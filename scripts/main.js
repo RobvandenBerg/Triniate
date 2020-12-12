@@ -275,7 +275,7 @@ var walkspeed = 3;
 // var wallsarray = new Array('381,0,410,363','382,378,407,445','407,402,500,445');
 
 // wallsarray[wallsarray.length] = [0,0,100,100,'use_function','open_craftbox'];
-function check_movable(coordtop,coordleft)
+function check_movable(coordleft,coordtop)
 {
 	var coordbottom = coordtop + charheight;
 	coordtop = coordbottom - 2;
@@ -905,101 +905,95 @@ function stop_movement()
 
 var wcount = 0;
 
-function move_player(gwcount)
+var lastTickTime = 0;
+var speedFactor = 1;
+var syncTime = 80;
+var currentTickTime = 0;
+
+function move_player()
 {
-	if(connect_problems || npc_blocks_moving || direction == false || dead || gwcount != wcount)
+	//placeholder function
+}
+
+function move_player_new(gwcount)
+{
+	
+	if(connect_problems || npc_blocks_moving || direction == false || dead ) /*|| gwcount != wcount*/
 	{
+		//console.log(connect_problems, npc_blocks_moving, direction, dead );
 		return;
 	}
+	
+	
+	
+	var currentSpeed = walkspeed * speedFactor;
+	
 	f_direction = direction;
 	wcount++;
-			if(direction == 2)
-			{
-				var goupperm = check_movable((parseInt(document.getElementById('player_' + player_id).style.top) - walkspeed),parseInt(document.getElementById('player_' + player_id).style.left))
-				// alert((parseInt(document.getElementById('player_' + player_id).style.top) + 2) + ',' + parseInt(document.getElementById('player_' + player_id).style.left));
-				// alert(goupperm);
-				if(goupperm)
-				{
-					var get_position = parseInt(document.getElementById('player_' + player_id).style.top);
-					var new_position = get_position - walkspeed;
-					
-					
-					currentsprite = 'sprite_move_up';
-					change_sprite('player_' + player_id + '_sprite',sprite_move_up[my_character].src);
-					if(get_position < maxscroll_top)
-					{
-						document.getElementById('maincontain').scrollTop = document.getElementById('maincontain').scrollTop - walkspeed;
-					}
-					if(new_position > 0)
-					{
-						document.getElementById('player_' + player_id).style.top = new_position + 'px';
-						document.getElementById('player_' + player_id).style.zIndex = new_position + charheight;
-						setTimeout("move_player("+wcount+");",100);
-					}
-				}
-			}
 			if(direction == 4)
 			{
-				var godownperm = check_movable((parseInt(document.getElementById('player_' + player_id).style.top) + walkspeed),parseInt(document.getElementById('player_' + player_id).style.left))
-				if(godownperm)
-				{
-					currentsprite = 'sprite_move_down';
-					change_sprite('player_' + player_id + '_sprite',sprite_move_down[my_character].src);
-					var get_position = parseInt(document.getElementById('player_' + player_id).style.top);
-					// if(get_position > 106)
-					if(get_position > 76)
-					{
-						document.getElementById('maincontain').scrollTop = (document.getElementById('maincontain').scrollTop + walkspeed);
-					}
-					var new_position = (get_position + walkspeed);
-					if(new_position < maxmove_down)
-					{
-						document.getElementById('player_' + player_id).style.top = new_position + 'px';
-						document.getElementById('player_' + player_id).style.zIndex = new_position + charheight;
-						setTimeout("move_player("+wcount+");",100);
-					}
-				}
+				// down
+				var newPotentialX = pos.x;
+				var newPotentialY = pos.y + currentSpeed;
+				var moveToX = Math.round(newPotentialX);
+				var moveToY = Math.round(newPotentialY);
+				var extra_permission_check = (moveToY < maxmove_down);
+				var changeToSprite = 'sprite_move_down';
+				var changeToSpriteArray = sprite_move_down;
+			}
+			if(direction == 2)
+			{
+				// up
+				var newPotentialX = pos.x;
+				var newPotentialY = pos.y - currentSpeed;
+				var moveToX = Math.round(newPotentialX);
+				var moveToY = Math.round(newPotentialY);
+				var extra_permission_check = (moveToY > 0);
+				var changeToSprite = 'sprite_move_up';
+				var changeToSpriteArray = sprite_move_up;
 			}
 			if(direction == 1)
 			{
-				var goleftperm = check_movable((parseInt(document.getElementById('player_' + player_id).style.top)),parseInt(document.getElementById('player_' + player_id).style.left) - walkspeed)
-				if(goleftperm)
-				{
-					currentsprite = 'sprite_move_left';
-					change_sprite('player_' + player_id + '_sprite',sprite_move_left[my_character].src);
-					var get_position = parseInt(document.getElementById('player_' + player_id).style.left);
-					if(get_position < maxscroll_left)
-					{
-						document.getElementById('maincontain').scrollLeft = document.getElementById('maincontain').scrollLeft - walkspeed;
-					}
-					var new_position = get_position - walkspeed;
-					if(new_position > 0)
-					{
-						document.getElementById('player_' + player_id).style.left = new_position + 'px';
-						setTimeout("move_player("+wcount+");",100);
-					}
-				}
+				var newPotentialX = pos.x - currentSpeed;
+				var newPotentialY = pos.y;
+				var moveToX = Math.round(newPotentialX);
+				var moveToY = Math.round(newPotentialY);
+				var extra_permission_check = (moveToX > 0);
+				var changeToSprite = 'sprite_move_left';
+				var changeToSpriteArray = sprite_move_left;
+				
 			}
 			if(direction == 3)
 			{
-				var gorightperm = check_movable((parseInt(document.getElementById('player_' + player_id).style.top)),parseInt(document.getElementById('player_' + player_id).style.left) + walkspeed)
-				if(gorightperm)
-				{
+				var newPotentialX = pos.x + currentSpeed;
+				var newPotentialY = pos.y;
+				var moveToX = Math.round(newPotentialX);
+				var moveToY = Math.round(newPotentialY);
+				var extra_permission_check = (moveToX < maxmove_right);
+				var changeToSprite = 'sprite_move_right';
+				var changeToSpriteArray = sprite_move_right;
+			}
+			
+			
+			if(extra_permission_check && check_movable(moveToX, moveToY))
+			{
+				currentsprite = changeToSprite;
+				change_sprite('player_' + player_id + '_sprite',changeToSpriteArray[my_character].src);
+				var old_rounded_x = Math.round(pos.x);
+				var old_rounded_y = Math.round(pos.y);
 				
-					currentsprite = 'sprite_move_right';
-					change_sprite('player_' + player_id + '_sprite',sprite_move_right[my_character].src);
-					var get_position = parseInt(document.getElementById('player_' + player_id).style.left);
-					if(get_position > 160)
-					{
-						document.getElementById('maincontain').scrollLeft = (document.getElementById('maincontain').scrollLeft + walkspeed);
-					}
-					var new_position = (get_position + walkspeed);
-					if(new_position < maxmove_right)
-					{
-						document.getElementById('player_' + player_id).style.left = new_position + 'px';
-						setTimeout("move_player("+wcount+");",100);
-					}
-				}
+				pos.x = newPotentialX;
+				pos.y = newPotentialY;
+				
+				viewportLeft += moveToX - old_rounded_x;
+				viewportTop += moveToY - old_rounded_y;
+				document.getElementById('maincontain').scrollLeft = Math.max(0, Math.min(mapsize_width - viewportWidth, viewportLeft));
+				document.getElementById('maincontain').scrollTop = Math.max(0, Math.min(mapsize_height - viewportHeight, viewportTop));
+				
+				document.getElementById('player_' + player_id).style.left = moveToX + 'px';
+				document.getElementById('player_' + player_id).style.top = moveToY + 'px';
+				document.getElementById('player_' + player_id).style.zIndex = moveToY + charheight;
+				
 			}
 			// alert(player_id + 'cplayer top: '+document.getElementById('player_'+player_id).style.zIndex)
 }
@@ -1529,64 +1523,111 @@ function microtime (get_as_float) {
 var parse_sprites = new Array();
 // [object_id,stage,coordleft,coordtop,toleft,totop,type]
 
+
+function render()
+{
+	var now = new Date().getTime();
+	currentTickTime = now;
+	if(!lastTickTime) { lastTickTime = now;}
+	speedFactor = (now - lastTickTime)/syncTime;
+	
+	
+	move_player_new();
+	render_movement();
+	var wait_time = Math.max(1, (syncTime - (new Date().getTime() - now)));
+	lastTickTime = now;
+	setTimeout("render();",wait_time);
+}
+
+setTimeout("render();",3000);
+
+var lag = 500; // for rendering of other objects
+var currentUpdateTime = 0;
+var lastUpdateTime = 0;
+
 function render_movement()
 {
 	// drain_fitness();
+	
+	var virtualNow = currentTickTime - lag;
+	
 	var parse_sprites_length = parse_sprites.length;
 	for(var i = 0; i < parse_sprites_length; i++)
 	{
 		var current_sprite_array = parse_sprites[i];
 		if(current_sprite_array)
 		{
-		var object_id = current_sprite_array[0];
-		var stage = current_sprite_array[1];
-		var current_left = current_sprite_array[2];
-		var current_top = current_sprite_array[3];
-		var to_left = current_sprite_array[4];
-		var to_top = current_sprite_array[5];
-		var object_height = charheight;
-		if(current_sprite_array[7])
-		{
-			object_height = current_sprite_array[7];
-		}
-		// alert(arrayset);
-		
-		if(stage == 1 && Math.abs(to_top - current_top) < 3 && Math.abs(to_left - current_left < 3))
-		{
-			var new_top = parseInt(to_top);
-			var new_left = parseInt(to_left);
-		}
-		else
-		{
-			var new_left = get_new_coordinate(current_left,to_left,stage);
-			var new_top = get_new_coordinate(current_top,to_top,stage);
-		}
-		document.getElementById(object_id).style.left = new_left + 'px';
-		document.getElementById(object_id).style.top = new_top + 'px';
-		document.getElementById(object_id).style.zIndex = new_top + object_height;
-		
-		if(stage < 4)
-		{
-			parse_sprites[i][1] = (stage + 1);
-			parse_sprites[i][2] = new_left;
-			parse_sprites[i][3] = new_top;
-		}
-		else
-		{
-			parse_sprites.splice(i,1);
-		}
-		if(current_sprite_array[6])
-		{
-			var arrayset = current_sprite_array[6];
-			eval(arrayset+"[1] = "+new_left+"; "+arrayset+"[2] = "+new_top+";");
-		}
+			var object_id = current_sprite_array[0];
+			var stage = current_sprite_array[1];
+			var from_left = current_sprite_array[2];
+			var from_top = current_sprite_array[3];
+			var to_left = current_sprite_array[4];
+			var to_top = current_sprite_array[5];
+			var object_height = charheight;
+			if(current_sprite_array[7])
+			{
+				object_height = current_sprite_array[7];
+			}
+			var spriteGetId = current_sprite_array[8];
+			var current_sprite = current_sprite_array[9];
+			// alert(arrayset);
+			
+			var endTime = currentUpdateTime + lag;
+			var f = Math.max(0, Math.min(1, (currentTickTime - lastUpdateTime)/(endTime-lastUpdateTime)));
+			var currentLeft = Math.round(from_left + f * (to_left - from_left));
+			var currentTop = Math.round(from_top + f * (to_top - from_top));
+			
+			eval(current_sprite_array[6]+'[1] = '+currentLeft+'; ' + current_sprite_array[6]+'[2] = '+currentTop+';');
+			
+			if(Math.abs(currentLeft - to_left) == 1)
+			{
+				currentLeft = to_left;
+			}
+			if(Math.abs(currentTop - to_top) == 1)
+			{
+				currentTop = to_top;
+			}
+			
+			/*console.log(object_id + ' must go from ' + from_left + ' to '+ to_left);
+			console.log('f = ('+virtualNow+' - '+lastUpdateTime+')/('+currentUpdateTime+' - '+ lastUpdateTime + ' = ' + f);*/
+			
+			/*
+			if(stage == 1 && Math.abs(to_top - current_top) < 3 && Math.abs(to_left - current_left < 3))
+			{
+				var new_top = parseInt(to_top);
+				var new_left = parseInt(to_left);
+			}
+			else
+			{
+				var new_left = get_new_coordinate(current_left,to_left,stage);
+				var new_top = get_new_coordinate(current_top,to_top,stage);
+			}*/
+			document.getElementById(object_id).style.left = currentLeft + 'px';
+			document.getElementById(object_id).style.top = currentTop + 'px';
+			document.getElementById(object_id).style.zIndex = currentTop + object_height;
+			
+			
+			if((f >= 1 || (currentLeft == to_left && currentTop == to_top))  && (current_sprite.substr(0,12) == 'sprite_move_'))
+			{
+				
+
+				var goDirection = current_sprite.split('_')[2];
+				console.log("change_sprite('"+object_id +"_sprite',sprite_"+goDirection+"['"+spriteGetId+"'].src);");
+				eval("change_sprite('"+object_id +"_sprite',sprite_"+goDirection+"['"+spriteGetId+"'].src);");
+				
+			}
+			
+			/*if(f >= 1)
+			{
+				parse_sprites.splice(i,1);
+			}*/
 		}
 	}
-	var wait_time = 70 + parse_sprites_length * 30;
-	setTimeout("render_movement();",wait_time);
+	//var wait_time = 70 + parse_sprites_length * 30;
+	//setTimeout("render_movement();",wait_time);
 }
 
-setTimeout("render_movement();",3000);
+
 
 function get_new_coordinate(currentcoord,tocoord,stage)
 {
@@ -1627,6 +1668,11 @@ var lasttraderequest = 0;
 
 function handle_info(responseraw)
 {
+	var now = new Date().getTime();
+	if(!currentUpdateTime) { currentUpdateTime = now; }
+	lastUpdateTime = currentUpdateTime;
+	currentUpdateTime = now;
+		
 			responseraw = responseraw.split(';')
 			var currplayers = new Array();
 			var currvillains = new Array();
@@ -1740,10 +1786,11 @@ function handle_info(responseraw)
 							    
 						// checktoppos = parseInt(document.getElementById(cplayer).style.top);
 						// checkleftpos = parseInt(document.getElementById(cplayer).style.left);
-						checkleftpos = players[cplayerid][1];
-						checktoppos = players[cplayerid][2];
+						checkleftpos = parseInt(document.getElementById(cplayer).style.left);
+						checktoppos = parseInt(document.getElementById(cplayer).style.top);
 						checktopdiff = checktoppos - responsetext[2];
 						checkleftdiff = checkleftpos - responsetext[1];
+						
 						if(checktopdiff != 0)
 						{
 							if(checktopdiff > 0)
@@ -1778,6 +1825,7 @@ function handle_info(responseraw)
 						}
 						
 						currsprite = responsetext[3];
+						
 						
 						if(leftdirec == 'still' && topdirec == 'still')
 						{
@@ -1860,7 +1908,8 @@ function handle_info(responseraw)
 						}
 							    
 						// -----------------------------------------------------------------
-	parse_sprites[parse_sprites.length] = [cplayer,1,players[cplayerid][1],players[cplayerid][2],responsetext[1],responsetext[2],'players['+cplayerid+']'];
+	parse_sprites[parse_sprites.length] = [cplayer,1,checkleftpos,checktoppos,responsetext[1],responsetext[2],'players['+cplayerid+']',players[cplayerid][6],cplayerid, currsprite];
+	//parse_sprites[parse_sprites.length] = [cplayer,1,checkleftpos,checktoppos,responsetext[1],responsetext[2],"villains['"+cplayerid+"']",villains[cplayerid][6],villain_character,currsprite];
 						currmsg = responsetext[4];
 						// alert(currmsg);
 						checkmsg = document.getElementById('chattext_' + responsetext[0]).innerHTML;
@@ -1985,7 +2034,7 @@ function handle_info(responseraw)
 				{
 					//if(responsetext[0] != player_id)
 					//{
-responsetext[0] = 'v' + responsetext[0];
+						responsetext[0] = 'v' + responsetext[0];
 						cplayer = 'villain_' + responsetext[0];
 						var cplayerid = responsetext[0];
 						// currvillains[responsetext[0]] = 'a';
@@ -2021,10 +2070,11 @@ responsetext[0] = 'v' + responsetext[0];
 							    
 						// checktoppos = parseInt(document.getElementById(cplayer).style.top);
 						// checkleftpos = parseInt(document.getElementById(cplayer).style.left);
-						checkleftpos = villains[cplayerid][1];
-						checktoppos = villains[cplayerid][2];
+						checkleftpos = parseInt(document.getElementById(cplayer).style.left);
+						checktoppos = parseInt(document.getElementById(cplayer).style.top);
 						checktopdiff = checktoppos - responsetext[2];
 						checkleftdiff = checkleftpos - responsetext[1];
+						
 						if(checktopdiff != 0)
 						{
 							if(checktopdiff > 0)
@@ -2149,8 +2199,8 @@ responsetext[0] = 'v' + responsetext[0];
 						
 						// ------------------------------------------------------------------
 							    
-						parse_sprites[parse_sprites.length] = [cplayer,1,villains[cplayerid][1],villains[cplayerid][2],responsetext[1],responsetext[2],"villains['"+cplayerid+"']",villains[cplayerid][6]];
-
+						parse_sprites[parse_sprites.length] = [cplayer,1,checkleftpos,checktoppos,responsetext[1],responsetext[2],"villains['"+cplayerid+"']",villains[cplayerid][6],villain_character,currsprite];
+						
 						
 							    
 						// alert(last_sprite[responsetext[0]]);

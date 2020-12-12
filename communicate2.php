@@ -119,9 +119,9 @@ if($flagdiff >= 5)
 	{
 		$cpos_left = $flag_left;
 		$cpos_top = $flag_top;
-		$force_reset = true;
-		$reset_left = $flag_left;
-		$reset_top = $flag_top;
+		//$force_reset = true;
+		//$reset_left = $flag_left;
+		//$reset_top = $flag_top;
 	}
 }
 
