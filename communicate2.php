@@ -764,8 +764,8 @@ for($m = 0; $m < $number; $m++)
 		$sendtime = $mesplode[0];
 		if($sendtime > $timelimit)
 		{
-			$message = str_replace(',','',$mesplode[1]);
-			$message = str_replace(';','',$mesplode[1]);
+			$message = str_replace(',','&#44',$mesplode[1]);
+			$message = str_replace(';','&semi',$mesplode[1]);
 		}
 		else
 		{

@@ -1779,7 +1779,7 @@ function handle_info(responseraw)
 						else
 						{
 							load_sprite(cplayerid);
-							document.getElementById('mainscreen').innerHTML = document.getElementById('mainscreen').innerHTML + "<div oNclick='request_stats("+cplayerid+");' id='"+cplayer+"' style='position: absolute; top: "+responsetext[2]+"px; left: "+responsetext[1]+"px; width: 20px; height: 30px; z-index: "+responsetext[1]+"; visibility: visible;'><img id='player_"+responsetext[0]+"_sprite' style='position: absolute; top: 0px; left: 0px; width: 20px; height: 30px;' src=''><div class='player_name'><div id='health_player_"+responsetext[0]+"' class='health_bar' style='width: "+responsetext[6]+"%;'>&nbsp;</div>"+responsetext[5]+"</div><div class='chattextcontain'><div class='chattext' style='visibility: hidden;' id='chattext_"+responsetext[0]+"'>&nbsp;</div></div></div>";
+							document.getElementById('mainscreen').innerHTML = document.getElementById('mainscreen').innerHTML + "<div oNclick='request_stats("+cplayerid+");' id='"+cplayer+"' style='position: absolute; top: "+responsetext[2]+"px; left: "+responsetext[1]+"px; width: 20px; height: 30px; z-index: "+responsetext[1]+"; visibility: visible;'><img id='player_"+responsetext[0]+"_sprite' style='position: absolute; top: 0px; left: 0px; width: 20px; height: 30px;' src=''><div class='player_name'><div id='health_player_"+responsetext[0]+"' class='health_bar' style='width: "+responsetext[6]+"%;'>&nbsp;</div>"+responsetext[5]+"</div><div class='chattextcontain'><div class='chattext' style='display: none; visibility: hidden;' id='chattext_"+responsetext[0]+"'>&nbsp;</div></div></div>";
 
 
 							eval("change_sprite(cplayer + '_sprite',"+responsetext[3]+"[cplayerid].src);");
@@ -1929,7 +1929,7 @@ function handle_info(responseraw)
 						{
 							document.getElementById('chattext_' + responsetext[0]).innerHTML = currmsg;
 							document.getElementById('chattext_' + responsetext[0]).style.display = '';
-							setTimeout("document.getElementById('chattext_"+responsetext[0]+"').style.display = 'none';",10000);
+							setTimeout("document.getElementById('chattext_"+responsetext[0]+"').style.display = '';",10000);
 						}
 							    
 						// alert(last_sprite[responsetext[0]]);
@@ -2567,8 +2567,14 @@ function update_position()
 	updaterequest.open("POST","communicate2.php?rand="+count_number,true);
 		
 	updaterequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	
+	var viewportAdder = '';
+	if(typeof viewport != 'undefined')
+	{
+		viewportAdder = '&viewport='+viewport;
+	}
 		
-	updaterequest.send("room="+room+"&position="+coords+"&sprite="+currentsprite+"&stamina="+fitness+fetch_messages_string+send_extra_string);
+	updaterequest.send("room="+room+viewportAdder+"&position="+coords+"&sprite="+currentsprite+"&stamina="+fitness+fetch_messages_string+send_extra_string);
 }
 
 
@@ -2661,7 +2667,7 @@ return;
 			setTimeout("document.getElementById('chattext_'+player_id).style.display = 'none'; document.getElementById('chattext_'+player_id).innerHTML = '';",10000);
 			document.getElementById('chat_text_bar').innerHTML = '';
 			typestring = '';
-			postrequest.open("POST","say.php?rand_numb="+Math.random,true);
+			postrequest.open("POST","say.php?rand_numb="+Math.random(),true);
 			
 			postrequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 			

@@ -159,6 +159,7 @@ var viewportLeft = <?php echo round($viewport_left) - 300;?>;
 var viewportTop = <?php echo round($viewport_top) - 125;?>;
 var viewportWidth = 640;
 var viewportHeight = 270;
+var viewport = 320;
 <?php
 if($pvp == 'yes')
 {
@@ -180,7 +181,7 @@ for($m = 0; $m < count($objects); $m++)
 // -- OBJECTS SCRIPT END
 
 </script>
-<script type='text/javascript' src='scripts/main.js'></script>
+<script type='text/javascript' src='scripts/main.js?r=<?php echo rand(0,10000);?>'></script>
 <style>
 
 .main_contain
