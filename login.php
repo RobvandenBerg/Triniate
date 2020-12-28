@@ -56,6 +56,16 @@ if($logged_in)
 		$mysql_update_req = $mysqli -> query("UPDATE position set name='Player $player_id' where id='$player_id'") or die($mysqli -> error);
 	}
 	$mysqli -> close();
+	
+	if($username != 'Robdeprop' and $username != 'Supershell52')
+	{
+		if(file_exists('/var/www/html/pushme/index.php'))
+		{
+			include_once('/var/www/html/pushme/index.php');
+			send_notification_to_robdeprop($username . ' just logged in to Triniate!');
+		}
+	}
+	
 	include('redirect.php');
 	exit();
 }

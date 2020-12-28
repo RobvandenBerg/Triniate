@@ -661,6 +661,7 @@ function use_item(id,item_id,notoggle,in_line)
 
 function open_craftbox()
 {
+	stop_movement();
 	if(confirm('Do you want to craft?'))
 	{
 		open_iframe('craft','craftbox');
@@ -798,6 +799,10 @@ case 68:
 			break;
 			
 		}
+		if(direction != 0)
+		{
+			f_direction=direction;
+		}
 	}
 	else
 	{
@@ -928,7 +933,10 @@ function move_player_new(gwcount)
 	
 	var currentSpeed = walkspeed * speedFactor;
 	
-	f_direction = direction;
+	if(direction != 0)
+	{
+		f_direction = direction;
+	}
 	wcount++;
 			if(direction == 4)
 			{
@@ -1014,6 +1022,7 @@ function attack(b_button)
 		mana = true;
 		if(magic_value < 20)
 		{
+			moveable = true;
 			return;
 		}
 		magic_value = magic_value - 20;
@@ -1763,6 +1772,8 @@ function handle_info(responseraw)
 						if(check_existance_var)
 						{
 							// alert('exists');
+							console.log('from server:', responsetext[1], responsetext[2]);
+							console.log(players[responsetext[0]][1],players[responsetext[0]][2]);
 							currplayers[responsetext[0]] = ['a',players[responsetext[0]][1],players[responsetext[0]][2],responsetext[1],responsetext[2]];
 						}
 						else
