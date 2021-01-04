@@ -539,6 +539,10 @@ document.onkeydown = function(event){
      else{
             holder=event.which;
      } 
+	 if(SYSTEM == 'new3ds' && holder == 32)
+	 {
+		 holder = 13; // in the new 3ds browser, the A-button actually triggers the spacebar keycode instead of the enter button keycode.
+	 }
      KeyDownCheck(holder);
 }
 
@@ -806,7 +810,7 @@ case 68:
 	}
 	else
 	{
-		if(KeyID == 13 && in_dialogue == true)
+		if((KeyID == 13 || KeyID == 32)&& in_dialogue == true)
 		{
 			start_dialogue(next_dialogue);
 		}
@@ -1540,11 +1544,16 @@ function render()
 	if(!lastTickTime) { lastTickTime = now;}
 	speedFactor = (now - lastTickTime)/syncTime;
 	
+	if(SYSTEM == '3ds')
+	{
+		check_b_button();
+	}
 	
 	move_player_new();
 	render_movement();
 	var wait_time = Math.max(1, (syncTime - (new Date().getTime() - now)));
 	lastTickTime = now;
+	
 	setTimeout("render();",wait_time);
 }
 
@@ -1929,7 +1938,7 @@ function handle_info(responseraw)
 						{
 							document.getElementById('chattext_' + responsetext[0]).innerHTML = currmsg;
 							document.getElementById('chattext_' + responsetext[0]).style.display = '';
-							setTimeout("document.getElementById('chattext_"+responsetext[0]+"').style.display = '';",10000);
+							setTimeout("document.getElementById('chattext_"+responsetext[0]+"').style.display = 'none';",10000);
 						}
 							    
 						// alert(last_sprite[responsetext[0]]);
@@ -2531,7 +2540,7 @@ function update_position()
 			// document.getElementById('tester').innerHTML = test;
 			var responseraw = updaterequest.responseText;
 			
-			if(SYSTEM == '3ds')
+			if(SYSTEM == '3ds' || SYSTEM == 'new3ds')
 			{
 				update_position();
 			}
@@ -2644,7 +2653,7 @@ var loadinventory = setTimeout("get_inventory();",5000);
 
 function sendpost()
 {
-	var posttext = document.getElementById('chat_text_bar').innerHTML;
+	var posttext = document.getElementById('chat_text_bar').innerText;
 	if(posttext == 'testnpc')
 	{
 		start_npc_action(Array(Array(2,'walk',10,50,sprite_move_left['npc_'+2],'absolute'), Array(2,'walk',60,50,sprite_move_right['npc_'+2]), Array(2,'changesprite',sprite_right['npc_'+2]), Array(2,'wait',2000),Array(2,'blockmoving'), Array(2,'touser','npc_'+2,'right',sprite_move_left['npc_'+2]), Array(2,'changesprite',sprite_left['npc_'+2]), Array(0,'changesprite',sprite_right['npc_'+2]), Array(2,'wait',2000), Array(2,'warp','from_player',15,100), Array(2,'wait',500), Array(2,'touser','Goblin','right',sprite_move_left['npc_'+2]), Array(2,'wait',500), Array(2,'changesprite',sprite_left['npc_'+2]), Array(2,'wait',500), Array(2,'unblockmoving'), Array(2,'conversation','NPC 2|r|2/normal_inverted.png#blue#Hi! I am your stalker! :D@*you*|l|1/normal.png#blue#Dafuq...@*you*|l|1/normal.png#blue#You should get your scripts checked.@*you*|l|1/normal.png#blue#You just spazzed out, changing into monsters n shit@NPC 2|r|2/normal_inverted.png#blue#Oh, right. Sorry about that.'), Array(2,'walk',20,0,sprite_move_right[1],'relative'),Array(2,'changesprite',sprite_left[1])));

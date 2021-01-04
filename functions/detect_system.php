@@ -10,6 +10,10 @@ function detect_system()
 	$user_agent = $_SERVER['HTTP_USER_AGENT'];
 	if(eregi('Nintendo 3DS', $_SERVER['HTTP_USER_AGENT']))
 	{
+		if(eregi('New', $_SERVER['HTTP_USER_AGENT']))
+		{
+			return 'new3ds';
+		}
 		return '3ds';
 	}
 	else if(eregi('mobile', $_SERVER['HTTP_USER_AGENT']))

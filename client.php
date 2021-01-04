@@ -147,7 +147,7 @@ if(file_exists('npcs/rooms/'.$room.'.php'))
 ?>
 <html>
 <http-equiv="pragma" content="NO-CACHE">
-<meta name='viewport' content='width=320'>
+<meta name='viewport' content='width=320, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
 <head>
 <title>
 Triniate - 3DS Client
@@ -193,7 +193,7 @@ for($m = 0; $m < count($objects); $m++)
 // alert(objects);
 // -- OBJECTS SCRIPT END
 </script>
-<script type='text/javascript' src='scripts/main.js'></script>
+<script type='text/javascript' src='scripts/main.js?r=<?php echo rand(0, 10000);?>'></script>
 <style>
 .main_contain
 {
@@ -801,17 +801,19 @@ overflow: hidden;
 
 
 <script>
-window.onload = function(){setTimeout('update_position();',1000); var iets = setTimeout('document.getElementById(\'loading_span\').style.visibility = \'hidden\'; document.getElementById(\'load_screen\').style.visibility = \'hidden\'; document.getElementById(\'mainscreen\').style.visibility = \'visible\';',2000); get_character_stats(player_id); document.getElementById('buttoninput').focus(); setInterval("check_b_button();",20);
+window.onload = function(){setTimeout('update_position();',1000); var iets = setTimeout('document.getElementById(\'loading_span\').style.visibility = \'hidden\'; document.getElementById(\'load_screen\').style.visibility = \'hidden\'; document.getElementById(\'mainscreen\').style.visibility = \'visible\';',2000); get_character_stats(player_id); document.getElementById('buttoninput').focus();
 }</script>
 
 <script>
 // document.onload = function(){document.getElementById('buttoninput').focus(); setInterval("check_b_button();",20);}
 
 var last_scrolltop = 0;
+
 function check_b_button()
 {
 <?php
-if(detect_system() == '3ds')
+$system = detect_system();
+if($system == '3ds' or $system == 'new3ds')
 {
 ?>
 	var new_scrolltop = document.getElementById('msgs').scrollTop;
