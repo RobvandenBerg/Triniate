@@ -4,22 +4,22 @@ function full_login()
 {
 	global $dbhost, $dbuser, $dbpass, $db, $logged_in, $user_id, $username, $login_error;
 	session_start();
-	if($_POST['username'] and $_POST['password'])
+	if(isset($_POST['username']) and isset($_POST['password']))
 	{
 		$username = $_POST['username'];
 		$password = md5($_POST['password']);
 	}
-	else if($_SESSION['username'] and $_SESSION['password'])
+	else if(isset($_SESSION['username']) and isset($_SESSION['password']))
 	{
 		$username = $_SESSION['username'];
 		$password = $_SESSION['password'];
 	}
-	else if($_COOKIE['username'] and $_COOKIE['password'])
+	else if(isset($_COOKIE['username']) and isset($_COOKIE['password']))
 	{
 		$username = $_COOKIE['username'];
 		$password = $_COOKIE['password'];
 	}
-	if($username and $password and !$_POST['logout'])
+	if(isset($username) and isset($password) and !isset($_POST['logout']))
 	{
 		$mysqli = mysqli_connect($dbhost, $dbuser, $dbpass, $db);
 		$result = $mysqli -> query('SELECT id, username, password_hash from users where username="'.$mysqli->real_escape_string($username).'"') or die($mysqli -> error);
@@ -49,7 +49,7 @@ function full_login()
 			}
 		}
 	}
-	else if($_POST['logout'])
+	else if(isset($_POST['logout']))
 	{
 		$_SESSION['username'] = '';
 		$_SESSION['password'] = '';
@@ -70,7 +70,7 @@ function light_login($include_when_dead = false)
 		$mg = htmlentities($_SESSION['mg']);
 		$room = htmlentities($_SESSION['room']);
 		$betatester = false;
-		if($_SESSION['betatester'] == 1)
+		if(isset($_SESSION['betatester']) && $_SESSION['betatester'] == 1)
 		{
 			$betatester = true;
 		}

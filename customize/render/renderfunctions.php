@@ -50,7 +50,9 @@ $pngs = array($path);
         imagefill($image, 0, 0, $bgcolor = imagecolorallocate($image, $background[0], $background[1], $background[2]));
         imagecopyresampled($image, $img, 0, 0, 0, 0, $width, $height, $width, $height);
         imagecolortransparent($image, $bgcolor);
-        imagegif($image, $output, 100);
+		
+		// Removed a parameter (100)
+        imagegif($image, $output);
         imagedestroy($image);
     }
 }

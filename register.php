@@ -7,33 +7,33 @@ if($logged_in)
 	exit('You cannot register while being logged in.<br><a href="./">Back</a>');
 }
 
-if($_POST['register'])
+if(isset($_POST['register']))
 {
 	$register_username = $_POST['register_username'];
 	$register_password = $_POST['register_password'];
 	$register_password_check = $_POST['register_password_check'];
 	
-	if(!$register_username)
+	if(!isset($register_username))
 	{
 		$error = 'Enter a username!';
 	}
 	
-	if(strlen($register_username) > 20)
+	if(isset($register_username) && strlen($register_username) > 20)
 	{
 		$error = 'Username is too long!';
 	}
 	
-	if(!$register_password)
+	if(!isset($register_password))
 	{
 		$error = 'Enter a password!';
 	}
 	
-	if($register_password != $register_password_check)
+	if(isset($register_password) && isset($register_password_check) && $register_password != $register_password_check)
 	{
 		$error = 'The passwords don\'t match!';
 	}
 	
-	if(!$error)
+	if(!isset($error))
 	{
 		$mysqli = mysqli_connect($dbhost, $dbuser, $dbpass, $db);
 		$register_password = md5($register_password);
@@ -63,7 +63,7 @@ if($_POST['register'])
 <h3>Register</h3>
 <?php
 
-if($error)
+if(isset($error))
 {
 	echo '<span style="color: red; font-weight: bold;">'.htmlentities($error).'</span><br><br>';
 }

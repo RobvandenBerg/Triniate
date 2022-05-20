@@ -14,7 +14,7 @@ $ammount_of_loops = 1;
 if(!isset($functions_included))
 {
 include("renderfunctions.php");
-include("GIFEncoder.class.php");
+include_once("GIFEncoder.class.php");
 $functions_included = 'yes';
 }
 

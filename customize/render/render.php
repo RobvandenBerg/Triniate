@@ -1,5 +1,6 @@
 <?php
 
+include_once("GIFEncoder.class.php");
 
 $stand_up = array(array('body','head','legs','weapon'),array('head'=>'head_','body'=>'body_','legs'=>'legs_','weapon'=>''),1,false,0);
 
@@ -183,14 +184,7 @@ $php = load_gif("$part.gif");
 							int					'Source type'
 						);
 */
-$gif = new GIFEncoder	(
-							$frames,
-							$framed,
-							$ammount_of_loops,
-							2,
-							1, 1, 1,
-							"url"
-		);
+ $gif = new GIFEncoder($frames,$framed,$ammount_of_loops,2,1, 1, 1,"url");
 /*
 		Possibles outputs:
 		==================
