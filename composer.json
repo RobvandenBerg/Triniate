@@ -1,0 +1,15 @@
+{
+    "name": "triniatephp8/triniate",
+    "description": "A fork of Triniate for PHP8",
+    "type": "project",
+    "license": "GPL v3",
+    "authors": [
+        {
+            "name": "TriniatePHP8"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require-dev": {
+        "rector/rector": "^0.12.23"
+    }
+}
