@@ -92,7 +92,7 @@ window.onload = function(){document.body.scrollTop = 218;}
 <div class='paper'>
 <div class='title'>Please log in</div>
 <p>You have to log in to play Triniate.</p>
-<p style='text-align: center; position: relative;'><input type='button' value='To login page' oNclick="window.location='<?php echo $triniate_playpage;?>';"></p>
+<p style='text-align: center; position: relative;'><input type='button' value='To login page' oNclick="window.location='<?php /* Removed */ echo "";?>';"></p>
 </div>
 </div>
 </body>

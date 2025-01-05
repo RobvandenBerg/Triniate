@@ -30,6 +30,7 @@ $items_split = explode("_",$drop_items);
 $names_split = explode('_',$names);
 $agressivities = $enemies_split[6];
 $agressivities_split = explode("-",$agressivities);
+$agressivities_split = explode(",",$agressivities_split[0]);
 
 
 $select_enemies_request = mysql_query("SELECT id from villains where room='$room' and visible='0'") or die('error');
@@ -77,6 +78,7 @@ $name = $names_split[$pickname];
 $name = $name . " ($level)";
 
 $agressivity_min = $agressivities_split[0];
+var_dump($agressivities_split);
 $agressivity_max = $agressivities_split[1];
 
 $agressive = rand($agressivity_min,$agressivity_max);
