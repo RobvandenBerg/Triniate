@@ -294,7 +294,7 @@ function check_movable(coordleft,coordtop)
 			if(wallsplit[4] && wallsplit[4] == 'teleport')
 			{
 				stop_movement();
-				if(window.confirm('Walk to next area?'))
+				if(confirm("Walk to next area?"))
 				{
 					redirecting_page = true;
 					window.location = 'switchrooms.php?newroom=' + wallsplit[5] + '&&inoption=' + wallsplit[6];
@@ -380,9 +380,35 @@ var villain_character = 2;
 
 
 
-
-
-
+	function getSkinFromId(playerId) {
+		// Create a new XMLHttpRequest object
+		const xhr = new XMLHttpRequest();
+	
+		// Define the PHP file URL with the query parameter
+		const url = 'get_skin.php?id=' + encodeURIComponent(playerId);
+	
+		// Open the request in synchronous mode (false makes it synchronous)
+		xhr.open("GET", url, false);
+	
+		try {
+			// Send the request
+			xhr.send();
+	
+			// Check the status code
+			if (xhr.status === 200) {
+				// Return the response text
+				console.log("Load player "+playerId+", got skin of "+xhr.responseText);
+				return xhr.responseText;
+			} else {
+				// Handle errors
+				console.error("Error loading player ID skin. Status: " + xhr.status);
+				return "1";
+			}
+		} catch (error) {
+			console.error("Request failed:", error);
+			return "1";
+		}
+	}
 
 function load_sprite(id,name)
 {
@@ -390,7 +416,11 @@ function load_sprite(id,name)
 	if(!name)
 	{
 		name = id;
-		beforeid = 'customize/saved/';
+		// ID is set by the name 
+		skin = getSkinFromId(name);
+		// Set sprite choice to name
+		id = skin;
+		beforeid = 'npcs/sprites/';
 	}
 	else if(parseInt(name) == name)
 	{
