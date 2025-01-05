@@ -453,8 +453,12 @@ function KeyDownCheck(KeyID)
 <div class='sellbox' id='sellbox'>
 <?php
 // Laat de koopbare
+// English: Let the buyable
 $item_class = 'selected';
 $idplus = 1;
+
+// Added this, as it would give a warning if you had no items
+$pass_to_javascript = "";
 if($total_sell_items == 0)
 {
 	echo 'You have no items.';
@@ -505,6 +509,7 @@ else
 		$idplus++;
 	}
 }
+// What is this?
 echo '<script>'.$pass_to_javascript.'</script>';
 ?>
 </div><div class='sbar'>

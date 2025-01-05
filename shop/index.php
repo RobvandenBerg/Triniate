@@ -18,16 +18,20 @@ $sellstring = $select_shop_array['sells'];
 $retailer = $select_shop_array['retailer'];
 $sellsplit = explode(',',$sellstring);
 $sellcount = count($sellsplit);
+$select_items_string = "(";
 for($a = 0; $a < $sellcount; $a++)
 {
-	if($select_items_string)
-	{
-		$select_items_string .= ' or ';
+	if($a == ($sellcount-1)){
+		$select_items_string .= 'id='.$sellsplit[$a].")";
+	} else {
+		$select_items_string .= 'id='.$sellsplit[$a]." OR ";
 	}
-	$select_items_string .= 'id='.$sellsplit[$a];
+	
 }
+// echo 'SELECT id, name, price from items where '.$select_items_string.' and quest_item=\'no\' order by id';
+
 $selling = array();
-if($select_items_string)
+if(isset($select_items_string))
 {
 	$select_sells_request = mysql_query('SELECT id, name, price from items where '.$select_items_string.' and quest_item=\'no\' order by id') or die(mysql_error());
 	$total_sell_items = mysql_num_rows($select_sells_request);
@@ -480,6 +484,7 @@ function KeyDownCheck(KeyID)
 // Laat de koopbare
 $item_class = 'selected';
 $idplus = 1;
+$pass_to_javascript = "";
 foreach($buyable as $buyarray)
 {
 	$item_id = $buyarray[0];
