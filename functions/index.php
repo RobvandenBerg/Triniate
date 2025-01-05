@@ -10,8 +10,8 @@ include_once(__DIR__ . '/login_functions.php');
 include_once(__DIR__ . '/detect_system.php');
 include_once(__DIR__ . '/urlsettings.php');
 
-
-include_once(__DIR__ . '/db_info.php');
+include_once(__DIR__ . '/mysql_functions.php');
+include_once(__DIR__ . '/../db_info.php');
 
 include_once(__DIR__ . '/settings.php');
 ?>
