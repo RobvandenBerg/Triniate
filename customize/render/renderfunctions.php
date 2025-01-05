@@ -41,16 +41,21 @@ return($photo);
 
 
 function png2gif($path,$output, $background = array(1, 1, 1), $dest = 'gif'){
+// Why is this an array if it's only one argument?
 $pngs = array($path);
     // by WebReflection
     foreach($pngs as $png){
         $size = getimagesize($png);
         $img = imagecreatefrompng($png);
+        debug_backtrace();
         $image = imagecreatetruecolor($width = $size[0], $height = $size[1]);
         imagefill($image, 0, 0, $bgcolor = imagecolorallocate($image, $background[0], $background[1], $background[2]));
         imagecopyresampled($image, $img, 0, 0, 0, 0, $width, $height, $width, $height);
         imagecolortransparent($image, $bgcolor);
-        imagegif($image, $output, 100);
+
+        // Removed quality
+
+        imagegif($image, $output);
         imagedestroy($image);
     }
 }

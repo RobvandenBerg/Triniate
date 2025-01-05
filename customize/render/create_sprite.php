@@ -37,7 +37,9 @@ $update_parts_request = mysql_query("UPDATE position set head='$uhead', body='$u
 
 mysql_close();
 
-$sprite_id = $_GET['id'];
+// This line is not used in anywhere else.
+// $sprite_id = $_POST['id'];
+/*
 
 	$sprite = 'stand_down';
 	include('render.php');
@@ -96,6 +98,7 @@ $sprite_id = $_GET['id'];
 	$sprite = 'dead';
 	$use_sprite = 'stand_down';
 	include('render_black_version.php');
+*/
 
 echo "Sprite created. <a href='../../redirect.php'>Play Triniate</a>";
 	//echo "<script>alert('Sprite succesfully rendered!'); window.location='../../index.php';</script>";

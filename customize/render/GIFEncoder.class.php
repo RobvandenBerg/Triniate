@@ -1,239 +1,100 @@
 <?php
-/*
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-::
-::	GIFEncoder Version 2.0 by László Zsidi, http://gifs.hu
-::
-::	This class is a rewritten 'GifMerge.class.php' version.
-::
-::  Modification:
-::   - Simplified and easy code,
-::   - Ultra fast encoding,
-::   - Built-in errors,
-::   - Stable working
-::
-::
-::	Updated at 2007. 02. 13. '00.05.AM'
-::
-::
-::
-::  Try on-line GIFBuilder Form demo based on GIFEncoder.
-::
-::  http://gifs.hu/phpclasses/demos/GifBuilder/
-::
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*/
+class GIFEncoder {
+    public $frames = array(); // Array to store individual frame images
+    public $framed = array(0);   // Array to store each frame's duration in milliseconds
+    public $loopCount;                   // Number of times the animation loops
+    public $disposal;                     // Disposal method for each frame
+    public $transparentColorIndex;         // Index of the transparent color
+    public $sourceType;                     // Source type for each frame (1: normal, 2: transparent)
 
-Class GIFEncoder {
-	var $GIF = "GIF89a";		/* GIF header 6 bytes	*/
-	var $VER = "GIFEncoder V2.05";	/* Encoder version		*/
+    /**
+     * @param array $frames Array of individual frame images in GIF format
+     * @param int[] $framed Array containing each frame's duration in milliseconds
+     * @param int $loopCount Number of times the animation loops
+     * @param int $disposal Disposal method for each frame
+     * @param array $transparentColorIndex Index of the transparent color for each frame
+     * @param int $sourceType Source type for each frame (1: normal, 2: transparent)
+     */
+    function __construct($frames, $framed, $loopCount, $disposal, $transparentColorIndex, $sourceType) {
+        $this->frames = $frames;
+        $this->framed = $framed;
+        $this->loopCount = $loopCount;
+        $this->disposal = $disposal;
+        $this->transparentColorIndex = $transparentColorIndex;
+        $this->sourceType = $sourceType;
+    }
 
-	var $BUF = Array ( );
-	var $LOP =  0;
-	var $DIS =  2;
-	var $COL = -1;
-	var $IMG = -1;
+    /**
+     * Generate and output the GIF animation from the stored frames and durations
+     */
+    public function GetAnimation() {
+        // Header ( 'Content-type:image/gif' )
+        echo "Content-type:image/gif\n";
 
-	var $ERR = Array (
-		'ERR00'=>"Does not supported function for only one image!",
-		'ERR01'=>"Source is not a GIF image!",
-		'ERR02'=>"Unintelligible flag ",
-		'ERR03'=>"Does not make animation from animated GIF source",
-	);
+        // Add GIF header
+        $this->AddGIFHeader();
 
-	/*
-	:::::::::::::::::::::::::::::::::::::::::::::::::::
-	::
-	::	GIFEncoder...
-	::
-	*/
-	function GIFEncoder	(
-							$GIF_src, $GIF_dly, $GIF_lop, $GIF_dis,
-							$GIF_red, $GIF_grn, $GIF_blu, $GIF_mod
-						) {
-		if ( ! is_array ( $GIF_src ) && ! is_array ( $GIF_tim ) ) {
-			printf	( "%s: %s", $this->VER, $this->ERR [ 'ERR00' ] );
-			exit	( 0 );
-		}
-		$this->LOP = ( $GIF_lop > -1 ) ? $GIF_lop : 0;
-		$this->DIS = ( $GIF_dis > -1 ) ? ( ( $GIF_dis < 3 ) ? $GIF_dis : 3 ) : 2;
-		$this->COL = ( $GIF_red > -1 && $GIF_grn > -1 && $GIF_blu > -1 ) ?
-						( $GIF_red | ( $GIF_grn << 8 ) | ( $GIF_blu << 16 ) ) : -1;
+        foreach ($this->frames as $frame) {
+            $this->AddFrame($frame);
+        }
 
-		for ( $i = 0; $i < count ( $GIF_src ); $i++ ) {
-			if ( strToLower ( $GIF_mod ) == "url" ) {
-				$this->BUF [ ] = fread ( fopen ( $GIF_src [ $i ], "rb" ), filesize ( $GIF_src [ $i ] ) );
-			}
-			else if ( strToLower ( $GIF_mod ) == "bin" ) {
-				$this->BUF [ ] = $GIF_src [ $i ];
-			}
-			else {
-				printf	( "%s: %s ( %s )!", $this->VER, $this->ERR [ 'ERR02' ], $GIF_mod );
-				exit	( 0 );
-			}
-			if ( substr ( $this->BUF [ $i ], 0, 6 ) != "GIF87a" && substr ( $this->BUF [ $i ], 0, 6 ) != "GIF89a" ) {
-				printf	( "%s: %d %s", $this->VER, $i, $this->ERR [ 'ERR01' ] );
-				exit	( 0 );
-			}
-			for ( $j = ( 13 + 3 * ( 2 << ( ord ( $this->BUF [ $i ] { 10 } ) & 0x07 ) ) ), $k = TRUE; $k; $j++ ) {
-				switch ( $this->BUF [ $i ] { $j } ) {
-					case "!":
-						if ( ( substr ( $this->BUF [ $i ], ( $j + 3 ), 8 ) ) == "NETSCAPE" ) {
-							printf	( "%s: %s ( %s source )!", $this->VER, $this->ERR [ 'ERR03' ], ( $i + 1 ) );
-							exit	( 0 );
-						}
-						break;
-					case ";":
-						$k = FALSE;
-						break;
-				}
-			}
-		}
-		GIFEncoder::GIFAddHeader ( );
-		for ( $i = 0; $i < count ( $this->BUF ); $i++ ) {
-			GIFEncoder::GIFAddFrames ( $i, $GIF_dly [ $i ] );
-		}
-		GIFEncoder::GIFAddFooter ( );
-	}
-	/*
-	:::::::::::::::::::::::::::::::::::::::::::::::::::
-	::
-	::	GIFAddHeader...
-	::
-	*/
-	function GIFAddHeader ( ) {
-		$cmap = 0;
+        // Terminate GIF stream
+        $this->EndGIFStream();
+    }
 
-		if ( ord ( $this->BUF [ 0 ] { 10 } ) & 0x80 ) {
-			$cmap = 3 * ( 2 << ( ord ( $this->BUF [ 0 ] { 10 } ) & 0x07 ) );
+    /**
+     * Add the GIF header to the output stream
+     */
+    private function AddGIFHeader() {
+        echo "\x21\xF9\x04";  // GIF signature
+    }
 
-			$this->GIF .= substr ( $this->BUF [ 0 ], 6, 7		);
-			$this->GIF .= substr ( $this->BUF [ 0 ], 13, $cmap	);
-			$this->GIF .= "!\377\13NETSCAPE2.0\3\1" . GIFEncoder::GIFWord ( $this->LOP ) . "\0";
-		}
-	}
-	/*
-	:::::::::::::::::::::::::::::::::::::::::::::::::::
-	::
-	::	GIFAddFrames...
-	::
-	*/
-	function GIFAddFrames ( $i, $d ) {
+    /**
+     * Add a frame to the GIF animation stream
+     * @param string $frame The GIF frame image data
+     */
+    private function AddFrame($frame) {
+        echo "\x2C\x00";  // Block Specifier (Local Color Table)
+        echo pack("v", 8);   // Block Size (size of color table in bytes)
 
-		$Locals_str = 13 + 3 * ( 2 << ( ord ( $this->BUF [ $i ] { 10 } ) & 0x07 ) );
+        $colorTable = unpack('V*', $this->GetColorTable());
+        foreach ($colorTable as $colorCode) {
+            echo pack('V', $colorCode);  // Color table data
+        }
 
-		$Locals_end = strlen ( $this->BUF [ $i ] ) - $Locals_str - 1;
-		$Locals_tmp = substr ( $this->BUF [ $i ], $Locals_str, $Locals_end );
+        echo "\x21\xF9\x01";  // Block Specifier (Image Description)
+        echo pack("v", 3);   // Block Size
+        echo pack("V", 0x4546546, 0x000801, $this->transparentColorIndex * 257);  // Image Descriptor data
 
-		$Global_len = 2 << ( ord ( $this->BUF [ 0  ] { 10 } ) & 0x07 );
-		$Locals_len = 2 << ( ord ( $this->BUF [ $i ] { 10 } ) & 0x07 );
+        echo "\x2C\x00";  // Block Specifier (Local Color Table)
+        echo pack("v", 8);   // Block Size (size of color table in bytes)
 
-		$Global_rgb = substr ( $this->BUF [ 0  ], 13,
-							3 * ( 2 << ( ord ( $this->BUF [ 0  ] { 10 } ) & 0x07 ) ) );
-		$Locals_rgb = substr ( $this->BUF [ $i ], 13,
-							3 * ( 2 << ( ord ( $this->BUF [ $i ] { 10 } ) & 0x07 ) ) );
+        $colorTable = unpack('V*', $this->GetColorTable());
+        foreach ($colorTable as $colorCode) {
+            echo pack('V', $colorCode);  // Color table data
+        }
 
-		$Locals_ext = "!\xF9\x04" . chr ( ( $this->DIS << 2 ) + 0 ) .
-						chr ( ( $d >> 0 ) & 0xFF ) . chr ( ( $d >> 8 ) & 0xFF ) . "\x0\x0";
+        echo "\x21\xF9\x01";  // Block Specifier (Image Description)
+        echo pack("v", 3);   // Block Size
+        echo pack("V", 0x4546546, 0x000801, $this->transparentColorIndex * 257);  // Image Descriptor data
+    }
 
-		if ( $this->COL > -1 && ord ( $this->BUF [ $i ] { 10 } ) & 0x80 ) {
-			for ( $j = 0; $j < ( 2 << ( ord ( $this->BUF [ $i ] { 10 } ) & 0x07 ) ); $j++ ) {
-				if	(
-						ord ( $Locals_rgb { 3 * $j + 0 } ) == ( ( $this->COL >> 16 ) & 0xFF ) &&
-						ord ( $Locals_rgb { 3 * $j + 1 } ) == ( ( $this->COL >>  8 ) & 0xFF ) &&
-						ord ( $Locals_rgb { 3 * $j + 2 } ) == ( ( $this->COL >>  0 ) & 0xFF )
-					) {
-					$Locals_ext = "!\xF9\x04" . chr ( ( $this->DIS << 2 ) + 1 ) .
-									chr ( ( $d >> 0 ) & 0xFF ) . chr ( ( $d >> 8 ) & 0xFF ) . chr ( $j ) . "\x0";
-					break;
-				}
-			}
-		}
-		switch ( $Locals_tmp { 0 } ) {
-			case "!":
-				$Locals_img = substr ( $Locals_tmp, 8, 10 );
-				$Locals_tmp = substr ( $Locals_tmp, 18, strlen ( $Locals_tmp ) - 18 );
-				break;
-			case ",":
-				$Locals_img = substr ( $Locals_tmp, 0, 10 );
-				$Locals_tmp = substr ( $Locals_tmp, 10, strlen ( $Locals_tmp ) - 10 );
-				break;
-		}
-		if ( ord ( $this->BUF [ $i ] { 10 } ) & 0x80 && $this->IMG > -1 ) {
-			if ( $Global_len == $Locals_len ) {
-				if ( GIFEncoder::GIFBlockCompare ( $Global_rgb, $Locals_rgb, $Global_len ) ) {
-					$this->GIF .= ( $Locals_ext . $Locals_img . $Locals_tmp );
-				}
-				else {
-					$byte  = ord ( $Locals_img { 9 } );
-					$byte |= 0x80;
-					$byte &= 0xF8;
-					$byte |= ( ord ( $this->BUF [ 0 ] { 10 } ) & 0x07 );
-					$Locals_img { 9 } = chr ( $byte );
-					$this->GIF .= ( $Locals_ext . $Locals_img . $Locals_rgb . $Locals_tmp );
-				}
-			}
-			else {
-				$byte  = ord ( $Locals_img { 9 } );
-				$byte |= 0x80;
-				$byte &= 0xF8;
-				$byte |= ( ord ( $this->BUF [ $i ] { 10 } ) & 0x07 );
-				$Locals_img { 9 } = chr ( $byte );
-				$this->GIF .= ( $Locals_ext . $Locals_img . $Locals_rgb . $Locals_tmp );
-			}
-		}
-		else {
-			$this->GIF .= ( $Locals_ext . $Locals_img . $Locals_tmp );
-		}
-		$this->IMG  = 1;
-	}
-	/*
-	:::::::::::::::::::::::::::::::::::::::::::::::::::
-	::
-	::	GIFAddFooter...
-	::
-	*/
-	function GIFAddFooter ( ) {
-		$this->GIF .= ";";
-	}
-	/*
-	:::::::::::::::::::::::::::::::::::::::::::::::::::
-	::
-	::	GIFBlockCompare...
-	::
-	*/
-	function GIFBlockCompare ( $GlobalBlock, $LocalBlock, $Len ) {
+    /**
+     * Get the color table for the GIF animation
+     * @return string The color table in packed binary format
+     */
+    private function GetColorTable() {
+        $colorTable = array(0, 0, 0); // Color table data
+        return pack("V*", ...$colorTable);
+    }
 
-		for ( $i = 0; $i < $Len; $i++ ) {
-			if	(
-					$GlobalBlock { 3 * $i + 0 } != $LocalBlock { 3 * $i + 0 } ||
-					$GlobalBlock { 3 * $i + 1 } != $LocalBlock { 3 * $i + 1 } ||
-					$GlobalBlock { 3 * $i + 2 } != $LocalBlock { 3 * $i + 2 }
-				) {
-					return ( 0 );
-			}
-		}
-
-		return ( 1 );
-	}
-	/*
-	:::::::::::::::::::::::::::::::::::::::::::::::::::
-	::
-	::	GIFWord...
-	::
-	*/
-	function GIFWord ( $int ) {
-
-		return ( chr ( $int & 0xFF ) . chr ( ( $int >> 8 ) & 0xFF ) );
-	}
-	/*
-	:::::::::::::::::::::::::::::::::::::::::::::::::::
-	::
-	::	GetAnimation...
-	::
-	*/
-	function GetAnimation ( ) {
-		return ( $this->GIF );
-	}
+    /**
+     * Terminate the GIF stream by adding the GIF trailer
+     */
+    private function EndGIFStream() {
+        echo "\x21\xF9\x06";  // Block Specifier (Terminal)
+        echo pack("V", 0x4546546);  // Image Descriptor data
+        echo pack("v", 0);   // Image Data size in bytes
+    }
 }
 ?>

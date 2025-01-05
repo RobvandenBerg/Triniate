@@ -1,5 +1,7 @@
 <?php
 
+// Why is this different than the one in renderfunctions.php?
+
 function png2gif($directory, $background = array(1, 1, 1), $dest = 'gif'){
 $pngs = glob("$directory/*.png");
     // by WebReflection
@@ -10,7 +12,8 @@ $pngs = glob("$directory/*.png");
         imagefill($image, 0, 0, $bgcolor = imagecolorallocate($image, $background[0], $background[1], $background[2]));
         imagecopyresampled($image, $img, 0, 0, 0, 0, $width, $height, $width, $height);
         imagecolortransparent($image, $bgcolor);
-        imagegif($image, $npath, 100);
+        // Remove quality
+        imagegif($image, $npath);
         imagedestroy($image);
     }
 }
@@ -25,7 +28,8 @@ $pngs = array($path);
         imagefill($image, 0, 0, $bgcolor = imagecolorallocate($image, $background[0], $background[1], $background[2]));
         imagecopyresampled($image, $img, 0, 0, 0, 0, $width, $height, $width, $height);
         imagecolortransparent($image, $bgcolor);
-        imagegif($image, $output, 100);
+        // Remove quality
+        imagegif($image, $output);
         imagedestroy($image);
     }
 }
