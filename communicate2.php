@@ -128,7 +128,7 @@ if($flagdiff >= 5)
 // $stamina = $sms['stamina'];
 
 $explode_set_sprite = explode('_',$sprite);
-if($explode_set_sprite[3] && $explode_set_sprite[3] == 'mana')
+if(isset($explode_set_sprite[3]) && $explode_set_sprite[3] == 'mana')
 {
 	foreach($extra_array as $extra_string)
 	{
@@ -788,11 +788,11 @@ for($m = 0; $m < $number; $m++)
 	if($id == $player_id)
 	{
 		echo $item_equipped . ',' . $item_equipped_id . ',' . $durability_percentage . ',' . round($magic_percentage) . ',' . $magic . ',' . $reset_left . ',' . $reset_top;
-		if($force_reset)
+		if(isset($force_reset))
 		{
 			/*file_put_contents('do2.txt','reset left: '.$reset_left.'. reset top: '.$reset_top);*/
 		}
-		if($display_stamina)
+		if(isset($display_stamina))
 		{
 			echo ',' . $stamina;
 		}
@@ -832,7 +832,7 @@ include('lying_items.php');
 
 include('spawn.php');
 
-if($_POST['fetch_messages'])
+if(isset($_POST['fetch_messages']))
 {
 	echo ';split;';
 	include('messages.php');
