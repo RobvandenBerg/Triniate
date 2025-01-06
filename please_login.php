@@ -1,6 +1,9 @@
 <?php
 include('include_this.php');
-
+// Fix Triniate play page bug.
+if(!isset($triniate_playpage)){
+  include('github_settings.php');
+}
 ?>
 <html>
 <head>
@@ -92,7 +95,7 @@ window.onload = function(){document.body.scrollTop = 218;}
 <div class='paper'>
 <div class='title'>Please log in</div>
 <p>You have to log in to play Triniate.</p>
-<p style='text-align: center; position: relative;'><input type='button' value='To login page' oNclick="window.location='<?php /* Removed */ echo "";?>';"></p>
+<p style='text-align: center; position: relative;'><input type='button' value='To login page' oNclick="window.location='<?php echo $triniate_playpage;?>';"></p>
 </div>
 </div>
 </body>
