@@ -77,8 +77,8 @@ $pickname = rand(0,$total_names);
 $name = $names_split[$pickname];
 $name = $name . " ($level)";
 
-$agressivity_min = $agressivities_split[0];
-$agressivity_max = $agressivities_split[1];
+$agressivity_min = (int)$agressivities_split[0];
+$agressivity_max = (int)$agressivities_split[1];
 
 $agressive = rand($agressivity_min,$agressivity_max);
 if(!is_numeric($agressive))
