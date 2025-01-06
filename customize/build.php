@@ -109,7 +109,6 @@ font-weight: bold;
 var head = new Array(0,[1,'../bodyparts/1/walk_down/head_2.gif'],[2,'../bodyparts/2/walk_down/head_2.gif'],[3,'../bodyparts/3/walk_down/head_2.gif'],[4,'../bodyparts/4/walk_down/head_4.gif']);
 var body = new Array(0,[1,'../bodyparts/1/walk_down/body_2.gif'],[2,'../bodyparts/2/walk_down/body_2.gif'],[5,'../bodyparts/5/walk_down/body_2.gif'],[6,'../bodyparts/6/walk_down/body_4.gif'],[7,'../bodyparts/7/walk_down/body_4.gif']);
 var legs = new Array(0,[1,'../bodyparts/1/walk_down/legs_2.gif'],[2,'../bodyparts/2/walk_down/legs_2.gif'],[5,'../bodyparts/5/walk_down/legs_2.gif'],[6,'../bodyparts/6/walk_down/legs_4.gif'],[8,'../bodyparts/8/walk_down/legs_4.gif']);
-var npc = ["1","2","3","4","5"];
 <?php
 /*
 var current_body = <?php $body;?>;
@@ -121,33 +120,36 @@ var current_legs = <?php $legs;?>;
 var current_head = 0;
 var current_body = 0;
 var current_legs = 0;
-var current_npc = 1;
 
-function prevChar(){
-	max = (npc.length - 1);
-	if((current_npc - 1) < 0){
-		current_npc = max;
-	} else {
-		current_npc -= 1;
+function switch_bodypart(bodypart,direction)
+{
+eval("var current_thing = current_"+bodypart+";");
+eval("var clength = "+bodypart+".length;");
+	if(direction == 'next')
+	{
+	//alert('current_thing: '+current_thing+'. clength: '+clength+'.');
+		if(current_thing < (clength - 1))
+		{
+			eval("current_"+bodypart+"++;");
+		}
 	}
-	document.getElementById("char").src = "../npcs/sprites/"+npc[current_npc]+"/stand_down.gif";
-	document.getElementById("sendvalue").value = npc[current_npc]+";1;1;1";
-}
-function nextChar(){
-	max = npc.length
-	if((npc.length - 1)< current_npc + 1){
-		current_npc = 0;
-	} else {
-		current_npc += 1;
+	if(direction == 'prev')
+	{
+		if(current_thing > 1)
+		{
+			eval("current_"+bodypart+"--;");
+		}
 	}
-	document.getElementById("char").src = "../npcs/sprites/"+npc[current_npc]+"/stand_down.gif";
-	document.getElementById("sendvalue").value = npc[current_npc]+";1;1;1";
+	// eval("document.getElementById('character_"+bodypart+"').src = '\"'+"+bodypart+"[current_"+bodypart+"]+'\"';");
+eval("document.getElementById('character_"+bodypart+"').src = "+bodypart+"[current_"+bodypart+"][1];");
 }
+
+
 var weapon = new Array([0,0],[1,1],[2,2]);
 var current_weapon = 0;
 function finish()
 {
-// document.getElementById('sendvalue').value = head[current_head][0] + ';' + body[current_body][0] + ';' + legs[current_legs][0] + ';' + weapon[current_weapon][0];
+document.getElementById('sendvalue').value = head[current_head][0] + ';' + body[current_body][0] + ';' + legs[current_legs][0] + ';' + weapon[current_weapon][0];
 setTimeout("document.forms[0].submit();",500);
 }
 </script>
@@ -162,11 +164,18 @@ setTimeout("document.forms[0].submit();",500);
 // echo "Head: $head. Body: $body. Legs: $legs.";
 ?>
 <br>
-<img class='character_part' id='char' src='../npcs/sprites/1/stand_down.gif'>
+<img class='character_part' id='character_head' src='../bodyparts/1/walk_down/head_4.gif'>
+</div>
+<img class='character_part' id='character_body' style='border: none;' src='../bodyparts/1/walk_down/body_4.gif'>
+</div>
+<img class='character_part' id='character_legs' style='border: none;' src='../bodyparts/1/walk_down/legs_4.gif'>
+</div>
 
 
 <div class='settings'>
-<input type='button' value='&lt;' oNclick="prevChar();"> NPC <input type='button' value='&gt;' oNclick="nextChar();"><br>
+<input type='button' value='&lt;' oNclick="switch_bodypart('head','prev');"> Hair <input type='button' value='&gt;' oNclick="switch_bodypart('head','next');"><br>
+<input type='button' value='&lt;' oNclick="switch_bodypart('body','prev');"> Shirt <input type='button' value='&gt;' oNclick="switch_bodypart('body','next');"><br>
+<input type='button' value='&lt;' oNclick="switch_bodypart('legs','prev');"> Pants <input type='button' value='&gt;' oNclick="switch_bodypart('legs','next');"><br>
 </div>
 <div class='finished'>
 <input type='button' value='Finished' oNclick='finish();'>
@@ -177,5 +186,5 @@ setTimeout("document.forms[0].submit();",500);
 
 </div>
 </body>
-<script><?php // echo "switch_bodypart('head','next'); switch_bodypart('body','next'); switch_bodypart('legs','next');";?>setInterval("document.body.scrollTop=218;",1);</script>
+<script><?php echo "switch_bodypart('head','next'); switch_bodypart('body','next'); switch_bodypart('legs','next');";?>setInterval("document.body.scrollTop=218;",1);</script>
 </html>
