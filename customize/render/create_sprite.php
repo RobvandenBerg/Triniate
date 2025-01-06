@@ -39,7 +39,7 @@ mysql_close();
 
 // This line is not used in anywhere else.
 // $sprite_id = $_POST['id'];
-/*
+
 
 	$sprite = 'stand_down';
 	include('render.php');
@@ -98,7 +98,6 @@ mysql_close();
 	$sprite = 'dead';
 	$use_sprite = 'stand_down';
 	include('render_black_version.php');
-*/
 
 echo "Sprite created. <a href='../../redirect.php'>Play Triniate</a>";
 	//echo "<script>alert('Sprite succesfully rendered!'); window.location='../../index.php';</script>";
