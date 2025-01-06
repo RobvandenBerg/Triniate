@@ -678,6 +678,8 @@ function close_iframe()
 {
 	setTimeout('close_screen("iframebox");',20);
 	document.getElementById("iframebox").src = '';
+	// Focus onto the game
+	document.getElementById("maincontain").focus();
 	crafting = false;
 }
 
