@@ -679,7 +679,7 @@ function close_iframe()
 	setTimeout('close_screen("iframebox");',20);
 	document.getElementById("iframebox").src = '';
 	// Focus on the game
-	document.getElementById("maincontain");
+	document.getElementById("maincontain").focus();
 	crafting = false;
 }
 
