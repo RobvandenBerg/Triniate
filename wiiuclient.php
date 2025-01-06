@@ -23,7 +23,8 @@ mysql_select_db($db) or die(mysql_error());
 		exit("Create a character to play Triniate. <a href='customize/build.php'>Click here</a> to create a character");
 	}
 
-session_start();
+// Session's already started
+// session_start();
 $_SESSION['room'] = $room;
 
 
@@ -759,6 +760,9 @@ font-weight: bold;
 
 <script type='text/javascript' src='scripts/keyboard.js'></script>
 <style>
+body {
+	image-rendering: pixelated;
+}
 .keyboard_button_normal
 {
 min-width: 15px;
@@ -875,9 +879,7 @@ var crafting = false;
 
 //document.onclick = function(){document.getElementById('buttoninput').focus();}
 </script>
-<?php
-include('../analytics/index.php');
-?>
+
 </head>
 <body>
 <div id='container'>

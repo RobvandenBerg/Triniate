@@ -1,6 +1,9 @@
 <?php
 include('include_this.php');
-
+// Fix Triniate play page bug.
+if(!isset($triniate_playpage)){
+  include('github_settings.php');
+}
 ?>
 <html>
 <head>

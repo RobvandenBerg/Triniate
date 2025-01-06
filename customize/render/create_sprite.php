@@ -37,7 +37,9 @@ $update_parts_request = mysql_query("UPDATE position set head='$uhead', body='$u
 
 mysql_close();
 
-$sprite_id = $_GET['id'];
+// This line is not used in anywhere else.
+// $sprite_id = $_POST['id'];
+
 
 	$sprite = 'stand_down';
 	include('render.php');

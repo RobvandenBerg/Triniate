@@ -1,19 +1,18 @@
 <?php
 include('include_this.php');
-
 full_login();
-if($logged_in)
+if(isset($logged_in))
 {
 	exit('You cannot register while being logged in.<br><a href="./">Back</a>');
 }
 
-if($_POST['register'])
+if(isset($_POST['register']))
 {
 	$register_username = $_POST['register_username'];
 	$register_password = $_POST['register_password'];
 	$register_password_check = $_POST['register_password_check'];
 	
-	if(!$register_username)
+	if(!isset($register_username))
 	{
 		$error = 'Enter a username!';
 	}
@@ -23,7 +22,7 @@ if($_POST['register'])
 		$error = 'Username is too long!';
 	}
 	
-	if(!$register_password)
+	if(!isset($register_password))
 	{
 		$error = 'Enter a password!';
 	}
@@ -33,7 +32,7 @@ if($_POST['register'])
 		$error = 'The passwords don\'t match!';
 	}
 	
-	if(!$error)
+	if(!isset($error))
 	{
 		$mysqli = mysqli_connect($dbhost, $dbuser, $dbpass, $db);
 		$register_password = md5($register_password);
@@ -46,8 +45,8 @@ if($_POST['register'])
 		else
 		{
 			$result = $mysqli -> query('INSERT into users (username, password_hash) VALUES ("'.$mysqli->real_escape_string($register_username).'","'.$password_hash.'")') or die($mysqli -> error);
-			
-			session_start();
+			// Session has already started
+			// session_start();
 			setcookie('username', $register_username, time()+60*60*24*365);
 			setcookie('password', $register_password, time()+60*60*24*365);
 			
@@ -63,7 +62,7 @@ if($_POST['register'])
 <h3>Register</h3>
 <?php
 
-if($error)
+if(isset($error))
 {
 	echo '<span style="color: red; font-weight: bold;">'.htmlentities($error).'</span><br><br>';
 }

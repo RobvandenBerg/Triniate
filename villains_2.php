@@ -1,6 +1,6 @@
 <?php
 
-if($_GET['a'])
+if(isset($_GET['a']))
 {
 	include('include_this.php');
 

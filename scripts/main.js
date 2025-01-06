@@ -294,7 +294,7 @@ function check_movable(coordleft,coordtop)
 			if(wallsplit[4] && wallsplit[4] == 'teleport')
 			{
 				stop_movement();
-				if(window.confirm('Walk to next area?'))
+				if(window.confirm("Walk to next area?"))
 				{
 					redirecting_page = true;
 					window.location = 'switchrooms.php?newroom=' + wallsplit[5] + '&&inoption=' + wallsplit[6];
@@ -373,17 +373,6 @@ var villain_character = 2;
 	load_sprite(3,'Caveman');
 	load_sprite(4,'Madeye');
 	
-
-
-
-
-
-
-
-
-
-
-
 function load_sprite(id,name)
 {
 	var beforeid = 'characters/';
@@ -668,7 +657,7 @@ function open_craftbox()
 	stop_movement();
 	if(confirm('Do you want to craft?'))
 	{
-		open_iframe('craft','craftbox');
+		open_iframe('craft/','craftbox');
 	}
 }
 
@@ -2660,7 +2649,7 @@ function sendpost()
 	}
 	if(posttext == '/shop')
 	{
-		window.location='shop';
+		window.location='shop/index.php';
 		return;
 	}
 if(posttext == '/stuck')

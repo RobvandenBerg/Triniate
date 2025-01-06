@@ -1,5 +1,4 @@
 <?php
-
 function check_has_item($player,$item,$mysql_active = true)
 {
 	global $dbhost,$dbuser,$dbpass,$db;

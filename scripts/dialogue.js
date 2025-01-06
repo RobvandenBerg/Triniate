@@ -181,7 +181,7 @@ var npcactioncheck = input.split('/npcaction ');
 	}
 	else if(input == '/shop' && checkskip() == false)
 	{
-		eval_after_dialogue = "open_iframe('shop','shopbox');";
+		eval_after_dialogue = "open_iframe('shop/','shopbox');";
 		output = ':skip:';
 	}
 	else if(input == '/sell' && checkskip() == false)
@@ -191,7 +191,7 @@ var npcactioncheck = input.split('/npcaction ');
 	}
 	else if(input == '/bank' && checkskip() == false)
 	{
-		eval_after_dialogue = "open_iframe('bank','shopbox');";
+		eval_after_dialogue = "open_iframe('bank/','shopbox');";
 		output = ':skip:';
 	}
 	else
