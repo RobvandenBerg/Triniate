@@ -294,7 +294,7 @@ function check_movable(coordleft,coordtop)
 			if(wallsplit[4] && wallsplit[4] == 'teleport')
 			{
 				stop_movement();
-				if(confirm("Walk to next area?"))
+				if(window.confirm("Walk to next area?"))
 				{
 					redirecting_page = true;
 					window.location = 'switchrooms.php?newroom=' + wallsplit[5] + '&&inoption=' + wallsplit[6];
