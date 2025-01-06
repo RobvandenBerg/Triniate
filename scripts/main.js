@@ -382,10 +382,10 @@ var villain_character = 2;
 
 	function getSkinFromId(playerId) {
 		// Create a new XMLHttpRequest object
-		const xhr = new XMLHttpRequest();
+		xhr = new XMLHttpRequest();
 	
 		// Define the PHP file URL with the query parameter
-		const url = 'get_skin.php?id=' + encodeURIComponent(playerId);
+		url = 'get_skin.php?id=' + encodeURIComponent(playerId);
 	
 		// Open the request in synchronous mode (false makes it synchronous)
 		xhr.open("GET", url, false);
@@ -416,11 +416,7 @@ function load_sprite(id,name)
 	if(!name)
 	{
 		name = id;
-		// ID is set by the name 
-		skin = getSkinFromId(name);
-		// Set sprite choice to name
-		id = skin;
-		beforeid = 'npcs/sprites/';
+		beforeid = 'customize/saved/';
 	}
 	else if(parseInt(name) == name)
 	{
