@@ -1,7 +1,9 @@
 <?php
 
 include('include_this.php');
-
+if(!isset($triniate_homepage)){
+	include("github_settings.php");
+}
 include_once('functions/urlsettings.php');
 
 full_login();
