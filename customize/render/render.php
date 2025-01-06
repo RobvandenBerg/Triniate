@@ -50,18 +50,10 @@ if($sprite == 'stand_down' or $sprite == 'stand_up' or $sprite == 'stand_left' o
 $standard_part = "standard_parts/$use_sprite";
 $standard_weapon = "standard_weapon/$use_sprite";
 
-// Old code commented out. Doesn't like PHP 8.
-// Is it meant to be GET or POST?
-// var_dump($_POST);
-// var_dump($_GET);
-// It seems that $_POST has sendvalue=1;1;1;0, so we'll split that up and put in into an array.
-
-$spriteArray = explode(";", $_POST["sendvalue"]);
-
-$weapon = $spriteArray[0];
-$head = $spriteArray[1];
-$body = $spriteArray[2];
-$legs = $spriteArray[3];
+$weapon = $_GET['weapon'];
+$head = $_GET['head'];
+$body = $_GET['body'];
+$legs = $_GET['legs'];
 
 $head = "../../bodyparts/$uhead/$use_sprite";
 $body = "../../bodyparts/$ubody/$use_sprite";
@@ -118,7 +110,7 @@ if(!is_dir("temp"))
 	mkdir("temp");
 }
 
-$random_dir = 1;
+$random_dir = rand(0,10000);
 $temp_dir = "temp/$random_dir";
 mkdir($temp_dir);
 
@@ -151,9 +143,9 @@ eval($do_eval);
 
 	foreach($bodyparts as $part)
 	{
-// Uncomment this if it makes it not work.
-// png2gif("$part.png","$part.gif");
-echo $temp_dir . "<br />";
+
+png2gif("$part.png","$part.gif");
+
 $php = load_gif("$part.gif");
 
 
