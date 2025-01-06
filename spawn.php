@@ -78,7 +78,6 @@ $name = $names_split[$pickname];
 $name = $name . " ($level)";
 
 $agressivity_min = $agressivities_split[0];
-var_dump($agressivities_split);
 $agressivity_max = $agressivities_split[1];
 
 $agressive = rand($agressivity_min,$agressivity_max);
