@@ -698,7 +698,7 @@ function open_craftbox()
 	stop_movement();
 	if(confirm('Do you want to craft?'))
 	{
-		open_iframe('craft','craftbox');
+		open_iframe('craft/','craftbox');
 	}
 }
 
@@ -2690,7 +2690,7 @@ function sendpost()
 	}
 	if(posttext == '/shop')
 	{
-		window.location='shop';
+		window.location='shop/index.php';
 		return;
 	}
 if(posttext == '/stuck')
