@@ -2642,6 +2642,13 @@ function get_inventory()
 
 var loadinventory = setTimeout("get_inventory();",5000);
 
+// Check enter for PC and mobile.
+function chkEnter(event){
+	if(event.keyCode === 13){
+		sendpost();
+	}
+}
+
 function sendpost()
 {
 	var posttext = document.getElementById('chat_text_bar').innerText;
