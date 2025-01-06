@@ -373,43 +373,6 @@ var villain_character = 2;
 	load_sprite(3,'Caveman');
 	load_sprite(4,'Madeye');
 	
-
-
-
-
-
-
-
-	function getSkinFromId(playerId) {
-		// Create a new XMLHttpRequest object
-		xhr = new XMLHttpRequest();
-	
-		// Define the PHP file URL with the query parameter
-		url = 'get_skin.php?id=' + encodeURIComponent(playerId);
-	
-		// Open the request in synchronous mode (false makes it synchronous)
-		xhr.open("GET", url, false);
-	
-		try {
-			// Send the request
-			xhr.send();
-	
-			// Check the status code
-			if (xhr.status === 200) {
-				// Return the response text
-				console.log("Load player "+playerId+", got skin of "+xhr.responseText);
-				return xhr.responseText;
-			} else {
-				// Handle errors
-				console.error("Error loading player ID skin. Status: " + xhr.status);
-				return "1";
-			}
-		} catch (error) {
-			console.error("Request failed:", error);
-			return "1";
-		}
-	}
-
 function load_sprite(id,name)
 {
 	var beforeid = 'characters/';
