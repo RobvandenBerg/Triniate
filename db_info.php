@@ -4,9 +4,8 @@ Specify your MySQL credentials here to the Triniate database and make sure that 
 */
 
 $dbhost = 'localhost';
-$dbuser = 'triniate_user';
-$dbpass = 'FAWWm*#MNb#3j(83m';
-$db = 'triniate';
-
+$dbuser = '*USERNAME HERE*';
+$dbpass = '*PASSWORD HERE*';
+$db = '*DATABASE HERE*';
 
 ?>
