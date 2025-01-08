@@ -106,7 +106,7 @@ $npc_name|l|2/normal.png#purple#/queststatus 3
 
 @$npc_name|l|2/normal.png#purple#{
 @$npc_name|l|2/normal.png#purple#The worst thing ever happened to me... Hear me out
-@$npc_name|l|2/normal.png#purple#I was proposing to my beautiful wife near the volcano...
+@$npc_name|l|2/normal.png#purple#I was proposing to my beautiful girlfriend near the volcano...
 @$npc_name|l|2/normal.png#purple#But then a strong-looking monster stole the ring!
 @*you*|r|1/normal_inverted.png#purple#What happened then?
 @$npc_name|l|2/normal.png#purple#I ran for my life! Now I am safe, but I want the ring back!
@@ -130,7 +130,7 @@ $npc_name|l|2/normal.png#purple#/queststatus 3
 
 @NPC 2|l|2/normal.png#purple#{
 @*you*|r|1/normal_inverted.png#purple#I found your ring!
-@$npc_name|l|2/normal.png#purple#Really?! Woah!~:multipilechoice:Here you go!:multipilechoice:I'm gonna use it to propose to your wife
+@$npc_name|l|2/normal.png#purple#Really?! Woah!~:multipilechoice:Here you go!:multipilechoice:I'm gonna use it to propose to your girlfriend
 @NPC 2|l|2/normal.png#purple#{
 @$npc_name|l|2/normal.png#purple#/quest 3;accomplish_quest
 @$npc_name|l|2/normal.png#purple#Here, have this iron axe and iron pickaxe in return! They're good tools, but I won't be needing them anymore.
