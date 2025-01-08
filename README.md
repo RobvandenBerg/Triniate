@@ -3,8 +3,8 @@ The open-source repository for Project Triniate, the MMORPG for the Nintendo 3DS
 
 # Setting it up
 To run Triniate in your own environment, clone this repository on a Linux-based server that runs PHP and MySQL or MariaDB.
-First, you'll have to set up the SQL database. The schematic is provided in mysql_schematic.sql, so all you have to do is import it.
-Next, open db_info.php and update it with the correct credentials to connect to your database. Finally, open github_settings.php and change $tiniate_homepage and $triniate_playpage to the correct URL's on your server.
+First, you'll have to set up the SQL database. The schematic is provided in `mysql_schematic.sql`, so all you have to do is import it.
+Next, open `db_info.php` and update it with the correct credentials to connect to your database. Finally, open `github_settings.php` and change `$triniate_homepage` and `$triniate_playpage` to the correct URL's on your server.
 Now you should be ready to go!
 
 # Pull Requests are welcome!

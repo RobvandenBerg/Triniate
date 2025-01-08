@@ -678,6 +678,8 @@ function close_iframe()
 {
 	setTimeout('close_screen("iframebox");',20);
 	document.getElementById("iframebox").src = '';
+	// Focus on the game
+	document.getElementById("maincontain").focus();
 	crafting = false;
 }
 
@@ -2639,6 +2641,13 @@ function get_inventory()
 }
 
 var loadinventory = setTimeout("get_inventory();",5000);
+
+// Check enter for PC and mobile.
+function chkEnter(event){
+	if(event.keyCode === 13){
+		sendpost();
+	}
+}
 
 function sendpost()
 {

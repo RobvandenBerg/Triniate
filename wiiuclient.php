@@ -936,7 +936,7 @@ foreach($standing_objects as $arr)
 <div class='keyboard' style='display: none;' id='chat_bar'>
 
 
-<div id='chat_text_bar' contenteditable="true"></div>
+<div id='chat_text_bar' contenteditable="true" onkeypress="chkEnter(event)"></div>
 <table border="1" cellspacing="0" width="100%" height="160">
 <tr>
 <td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">`</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">1</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">2</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">3</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">4</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">5</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">6</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">7</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">8</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">9</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">0</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">-</td><td onclick="type(this.innerHTML);" name="caps_sensitive" class="keyboard_button_normal">+</td><td onclick="type('backspace');" name="backspace_button" class="keyboard_button_other" colspan="2">&larr;</td>

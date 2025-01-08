@@ -49,15 +49,19 @@ if($sprite == 'stand_down' or $sprite == 'stand_up' or $sprite == 'stand_left' o
 
 $standard_part = "standard_parts/$use_sprite";
 $standard_weapon = "standard_weapon/$use_sprite";
-
+// To remove warnings
+/*
 $weapon = $_GET['weapon'];
 $head = $_GET['head'];
 $body = $_GET['body'];
 $legs = $_GET['legs'];
-
+*/
 $head = "../../bodyparts/$uhead/$use_sprite";
 $body = "../../bodyparts/$ubody/$use_sprite";
 $legs = "../../bodyparts/$ulegs/$use_sprite";
+// I don't know why this works, weapon being null, but it does.
+$weapon = null;
+
 if($uweapon != 0 && file_exists("../../weapons/$uweapon/$use_sprite"))
 {
 	$weapon = "../../weapons/$uweapon/$use_sprite";
@@ -143,8 +147,8 @@ eval($do_eval);
 
 	foreach($bodyparts as $part)
 	{
-
-png2gif("$part.png","$part.gif");
+// Comment this out because this CAN and WILL corrupt your bodyparts folder. Do not uncomment.
+// png2gif("$part.png","$part.gif");
 
 $php = load_gif("$part.gif");
 
